@@ -12,11 +12,19 @@ export const profileValidationSchema = Yup.object().shape({
   bio_en: Yup.string()
     .min(10, "Bio must be at least 10 characters")
     .max(500, "Bio cannot exceed 500 characters")
+    .matches(
+      /^[a-zA-Z\s.,!?'"()-]*$/,
+      "Bio can only contain letters, spaces, and basic punctuation"
+    )
     .required("English bio is required"),
 
   bio_ar: Yup.string()
     .min(10, "Bio must be at least 10 characters")
     .max(500, "Bio cannot exceed 500 characters")
+    .matches(
+      /^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\s.,!?'"()-]*$/,
+      "Bio can only contain Arabic letters, spaces, and basic punctuation"
+    )
     .required("Arabic bio is required"),
 
   date_of_birth: Yup.mixed()
@@ -30,6 +38,10 @@ export const profileValidationSchema = Yup.object().shape({
   guardian_contact: Yup.string()
     .matches(/^\d{10}$/, "Phone number must be 10 digits")
     .required("Guardian contact is required"),
+  nickname: Yup.string()
+    .min(4, "Nick Name must be at least 4 characters")
+    .max(13, "Nick Name cannot exceed 13 characters")
+    .required("nickname is required"),
 
   // Location Information
   nationality_id: createNumberValidation("nationality"),
@@ -37,18 +49,17 @@ export const profileValidationSchema = Yup.object().shape({
   city_id: createNumberValidation("city"),
   origin_id: Yup.number().nullable().required("Please select your origin "),
 
-  // Physical Attributes
   height: Yup.number().nullable().required("Please select your Height "),
 
   weight: Yup.number().nullable().required("Please select your Weight "),
 
-  // hair_color_id: Yup.number()
-  //   .nullable()
-  //   .when("gender", {
-  //     is: "f",
-  //     then: (schema) => schema.nullable(), // Optional for males
-  //     otherwise: (schema) => schema.required("Please select your hair color"),
-  //   }),
+  hair_color_id: Yup.number()
+    .nullable()
+    .when("gender", {
+      is: "female",
+      then: (schema) => schema.nullable(),
+      otherwise: (schema) => schema.required("Please select your hair color"),
+    }),
   skin_color_id: Yup.number()
     .nullable()
     .required("Please select your skin color"),
@@ -56,7 +67,6 @@ export const profileValidationSchema = Yup.object().shape({
     .nullable()
     .required("Please select your eye color"),
 
-  // Education and Work
   educational_level_id: Yup.number()
     .nullable()
     .required("Please select your Educational level"),
@@ -82,11 +92,14 @@ export const profileValidationSchema = Yup.object().shape({
       otherwise: (schema) => schema.nullable(),
     }),
 
-  // Financial and Housing
   financial_status_id: createNumberValidation("financial status"),
   housing_status_id: Yup.number()
     .nullable()
-    .required("Please select your Marital Status"),
+    .when("gender", {
+      is: (value) => value !== "female",
+      then: (schema) => schema.required("Please select your housing status"),
+      otherwise: (schema) => schema.nullable(),
+    }),
 
   car_ownership: Yup.boolean()
     .nullable()
@@ -99,7 +112,6 @@ export const profileValidationSchema = Yup.object().shape({
       otherwise: (schema) => schema.nullable(),
     }),
 
-  // Marital and Family
   marital_status_id: Yup.number()
     .nullable()
     .required("Please select your Marital Status"),
@@ -113,11 +125,9 @@ export const profileValidationSchema = Yup.object().shape({
       (value) => value === null || [1, 2, 3, 4, 5].includes(value)
     ),
 
-  // Religious and Cultural
   religion_id: createNumberValidation("religion"),
   religiosity_level_id: createNumberValidation("religiosity level"),
 
-  // Lifestyle
   sleep_habit_id: Yup.number()
     .nullable()
     .required("Please select your sleep habites"),
@@ -127,7 +137,6 @@ export const profileValidationSchema = Yup.object().shape({
   social_media_presence_id: Yup.number()
     .nullable()
     .required("Please select your Social Media presence"),
-  // Smoking and Drinking
   smoking_status: Yup.number()
     .nullable()
     .transform((value) => (isNaN(value) ? null : value))
@@ -146,14 +155,11 @@ export const profileValidationSchema = Yup.object().shape({
     .nullable()
     .required("Please select your drink status"),
 
-  // Additional Information
   hobbies: Yup.array()
     .transform((value, originalValue) => {
-      // If "none" is selected or no value, return empty array
       if (!originalValue || originalValue.includes("none")) {
         return [];
       }
-      // Convert selected values to integers
       return originalValue.map((id) =>
         typeof id === "string" ? parseInt(id) : id
       );
@@ -162,11 +168,9 @@ export const profileValidationSchema = Yup.object().shape({
 
   pets: Yup.array()
     .transform((value, originalValue) => {
-      // If "none" is selected or no value, return empty array
       if (!originalValue || originalValue.includes("none")) {
         return [];
       }
-      // Convert selected values to integers
       return originalValue.map((id) =>
         typeof id === "string" ? parseInt(id) : id
       );
@@ -182,24 +186,17 @@ export const profileValidationSchema = Yup.object().shape({
     500,
     "Health issues description cannot exceed 500 characters"
   ),
-
-  zodiac_sign_id: Yup.number()
-    .nullable()
-    .required("Please select your Zodiac sign"),
-
-  // Female-specific fields
-  hijab_status: Yup.mixed().when("gender", {
-    is: "female",
-    then: (schema) =>
-      schema
-        .oneOf([0, 1], "Please select a hijab status")
-        .required("Hijab status is required for females"),
-    otherwise: (schema) => schema.nullable(),
-  }),
 });
 
 export const stepFields = {
-  1: ["bio_en", "bio_ar", "gender", "date_of_birth", "guardian_contact"],
+  1: [
+    "bio_en",
+    "bio_ar",
+    "gender",
+    "date_of_birth",
+    "guardian_contact",
+    "nickname",
+  ],
   2: [
     "nationality_id", //
     "country_of_residence_id", //
@@ -233,7 +230,6 @@ export const stepFields = {
     "financial_status_id",
     "housing_status_id",
     "car_ownership",
-    "zodiac_sign_id",
     "social_media_presence_id",
   ],
   4: ["profile_image"],
@@ -276,7 +272,6 @@ export const initialProfileState = {
   pets: [],
   health_issues_en: "",
   health_issues_ar: "",
-  zodiac_sign_id: null,
   hijab_status: null,
   profile_image: [],
 };

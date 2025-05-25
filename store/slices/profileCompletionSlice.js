@@ -33,6 +33,7 @@ export const fetchProfileCompletionData = createAsyncThunk(
         const requiredFields = [
           "bio_en",
           "date_of_birth",
+          "nickname",
           "height",
           "weight",
           "nationality_id",

@@ -20,13 +20,9 @@ const FormInput = ({
   textAlign,
   ...rest
 }) => {
-  // Calculate preferred textAlign based on parameters
   const getTextAlignment = () => {
-    // If explicitly set, use it
     if (textAlign) return textAlign;
 
-    // For RTL context, default to 'right'
-    // For LTR context, default to 'left'
     return isRTL ? "right" : "left";
   };
 

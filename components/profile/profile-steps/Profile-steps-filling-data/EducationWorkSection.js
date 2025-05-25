@@ -52,12 +52,6 @@ const cardConfigs = {
     description: "Your social media and digital footprint",
     emoji: "🌐",
   },
-  zodiac: {
-    title: "Cosmic Identity",
-    iconName: "zodiac-sagittarius",
-    description: "Your astrological sign",
-    emoji: "⭐",
-  },
 };
 
 const EducationWorkSection = ({ isRTL = false, t, userGender }) => {
@@ -84,7 +78,7 @@ const EducationWorkSection = ({ isRTL = false, t, userGender }) => {
     positionLevels = [],
   } = professionalEducational;
 
-  const { zodiacSigns = [], socialMediaPresence = [] } = personalAttributes;
+  const { socialMediaPresence = [] } = personalAttributes;
   const { jobTitles = [] } = useSelector(selectProfessionalEducational);
   const { housingStatuses = [], financialStatuses = [] } = geographic;
 
@@ -399,26 +393,6 @@ const EducationWorkSection = ({ isRTL = false, t, userGender }) => {
             items={socialMediaPresence}
             leftIcon={
               <FeatherIcon name="share-2" size={20} color={COLORS.primary} />
-            }
-            isRTL={_isRTL}
-          />
-        </AnimatedFormContainer>
-      </AnimatedCard>
-
-      <AnimatedCard delay={500}>
-        <CardHeader
-          {...getTranslatedCardConfig(cardConfigs.zodiac)}
-          isRTL={_isRTL}
-        />
-        <AnimatedFormContainer isRTL={_isRTL}>
-          <FormDropdown
-            required
-            control={control}
-            name="zodiac_sign_id"
-            label={_t ? _t("profile.education.zodiac_sign") : "Zodiac Sign ✨"}
-            items={zodiacSigns}
-            leftIcon={
-              <MaterialIcon name="stars" size={20} color={COLORS.primary} />
             }
             isRTL={_isRTL}
           />

@@ -112,6 +112,7 @@ export const useProfileForm = (
         bio_ar: String(data.bio_ar || ""),
         date_of_birth: formatDate(data.date_of_birth),
         guardian_contact: String(data.guardian_contact || ""),
+        nickname: String(data.nickname || ""),
         gender: String(data.gender || ""),
 
         nationality_id: Number(data.nationality_id) || null,
@@ -165,7 +166,6 @@ export const useProfileForm = (
 
         health_issues_en: String(data.health_issues_en || ""),
         health_issues_ar: String(data.health_issues_ar || ""),
-        zodiac_sign_id: Number(data.zodiac_sign_id) || null,
 
         smoking_status: Number(data.smoking_status) === 1 ? 0 : 1,
       };

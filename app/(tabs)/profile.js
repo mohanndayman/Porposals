@@ -230,7 +230,6 @@ const ProfileScreen = () => {
       "profile.country_of_residence",
       "profile.city",
       "profile.date_of_birth",
-      "profile.zodiac_sign",
     ],
     professional: [
       "profile.educational_level",
@@ -634,11 +633,6 @@ const ProfileScreen = () => {
               value={profile.profile?.date_of_birth}
               isRequired={true}
             />
-            <ProfileItem
-              icon="stars"
-              label="Zodiac Sign"
-              value={profile.profile?.zodiac_sign}
-            />
           </ProfileSection>
 
           <ProfileSection
@@ -761,7 +755,7 @@ const ProfileScreen = () => {
             <ProfileItem
               icon="smoking-rooms"
               label="Smoking Status"
-              value={profile.profile?.smoking_status ? "Yes" : "No"}
+              value={profile.profile?.smoking_tools}
               isRequired={true}
             />
             <ProfileItem

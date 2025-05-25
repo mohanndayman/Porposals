@@ -43,7 +43,6 @@ export const useDynamicProfileData = () => {
     origins = [],
     maritalStatuses = [],
     skinColors = [],
-    zodiacSigns = [],
     sleepHabits = [],
     eyeColors = [],
   } = personalAttributes;
@@ -91,7 +90,6 @@ export const useDynamicProfileData = () => {
     origins,
     marital_statuses: maritalStatuses,
     skin_colors: skinColors,
-    zodiac_signs: zodiacSigns,
     hobbies,
     pets,
     sports_activities: sportsActivities,

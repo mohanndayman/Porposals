@@ -35,10 +35,7 @@ const MatchCard = ({ user, onPress, styles }) => {
     return getProfileImage(user);
   }, [user, getProfileImage]);
 
-  const fullName = useMemo(
-    () => `${user.first_name || ""} ${user.last_name || ""}`.trim(),
-    [user.first_name, user.last_name]
-  );
+  const fullName = user.nickname;
 
   const matchPercentage = user.match_percentage || 85;
 
@@ -67,7 +64,7 @@ const MatchCard = ({ user, onPress, styles }) => {
             <View style={styles.spotlightHeader}>
               <View style={styles.nameVerifiedContainer}>
                 <Text style={styles.spotlightName}>
-                  {fullName || user.first_name || "User"}
+                  {fullName || "User"}
                   {user.age ? `, ${user.age}` : ""}
                 </Text>
 

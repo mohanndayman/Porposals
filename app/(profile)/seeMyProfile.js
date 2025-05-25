@@ -122,7 +122,7 @@ const PreviewProfileScreen = () => {
 
   const profile = userProfile.profile || {};
 
-  const fullName = `${userProfile.first_name || ""} ${
+  const fullName = `${userProfile.nickname || ""} ${
     userProfile.last_name || ""
   }`.trim();
   const firstName = userProfile.first_name || "";
@@ -143,7 +143,6 @@ const PreviewProfileScreen = () => {
     employment: profile.employment_status ? "Employed" : "Unemployed",
     education: profile.educational_level,
     religion: profile.religion,
-    zodiac: profile.zodiac_sign,
     sports: profile.sports_activity,
     sleep: profile.sleep_habit,
   };

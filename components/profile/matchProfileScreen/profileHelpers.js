@@ -1,4 +1,5 @@
 export const processProfileData = (userProfile, profile) => {
+  const nickname = profile.nickname;
   const fullName = `${userProfile.first_name || ""} ${
     userProfile.last_name || ""
   }`.trim();
@@ -20,7 +21,6 @@ export const processProfileData = (userProfile, profile) => {
     employment: profile.employment_status ? "Employed" : "Unemployed",
     education: profile.educational_level,
     religion: profile.religion,
-    zodiac: profile.zodiac_sign,
     sports: profile.sports_activity,
     sleep: profile.sleep_habit,
   };
@@ -28,6 +28,7 @@ export const processProfileData = (userProfile, profile) => {
   return {
     fullName,
     firstName,
+    nickname,
     age,
     city,
     bio,

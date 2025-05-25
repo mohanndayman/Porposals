@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import createMatchProfileStyles from "../../../styles/matchProfileStyle";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 import COLORS from "../../../constants/colors";
-const LikeSuccessBanner = ({ userName }) => {
+const LikeSuccessBanner = ({ nickname }) => {
   const { t, isRTL } = useContext(LanguageContext);
   const styles = createMatchProfileStyles(isRTL);
   return (
@@ -13,7 +13,7 @@ const LikeSuccessBanner = ({ userName }) => {
         <Feather name="check" size={20} color={COLORS.white} />
       </View>
       <Text style={styles.successBannerText}>
-        You liked {userName}! We'll notify them of your interest.
+        You liked {nickname}! We'll notify them of your interest.
       </Text>
     </View>
   );

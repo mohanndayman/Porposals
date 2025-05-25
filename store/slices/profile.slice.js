@@ -84,9 +84,9 @@ const initialProfileData = {
   pets: [],
   health_issues_en: "",
   health_issues_ar: "",
-  zodiac_sign_id: null,
   car_ownership: false,
   guardian_contact: "",
+  nickname: "",
   hijab_status: 0,
   financial_status_id: null,
   profile: {

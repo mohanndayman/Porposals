@@ -101,7 +101,6 @@ const initialState = {
   origins: [],
   maritalStatuses: [],
   skinColors: [],
-  zodiacSigns: [],
   sleepHabits: [],
   socialMediaPresence: [],
   eyeColors: [],
@@ -169,7 +168,6 @@ const profileAttributesSlice = createSlice({
         state.origins = action.payload.origins || [];
         state.maritalStatuses = action.payload.marital_statuses || [];
         state.skinColors = action.payload.skin_colors || [];
-        state.zodiacSigns = action.payload.zodiac_signs || [];
         state.sleepHabits = action.payload.sleep_habits || [];
         state.socialMediaPresence = action.payload.social_media_presence || [];
 
@@ -275,7 +273,6 @@ const selectOrigins = (state) => state.profileAttributes.origins;
 const selectMaritalStatuses = (state) =>
   state.profileAttributes.maritalStatuses;
 const selectSkinColors = (state) => state.profileAttributes.skinColors;
-const selectZodiacSigns = (state) => state.profileAttributes.zodiacSigns;
 const selectSleepHabits = (state) => state.profileAttributes.sleepHabits;
 const selectMarriageBudget = (state) => state.profileAttributes.marriageBudget;
 const selectJobTitles = (state) => state.profileAttributes.jobTitles;
@@ -322,7 +319,6 @@ export const selectPersonalAttributes = createSelector(
     selectOrigins,
     selectMaritalStatuses,
     selectSkinColors,
-    selectZodiacSigns,
     selectSleepHabits,
     selectSocialMediaPresence,
   ],
@@ -334,7 +330,7 @@ export const selectPersonalAttributes = createSelector(
     origins,
     maritalStatuses,
     skinColors,
-    zodiacSigns,
+
     sleepHabits,
     socialMediaPresence
   ) => ({
@@ -345,7 +341,6 @@ export const selectPersonalAttributes = createSelector(
     origins,
     maritalStatuses,
     skinColors,
-    zodiacSigns,
     sleepHabits,
     socialMediaPresence,
   })

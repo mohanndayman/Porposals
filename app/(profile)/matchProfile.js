@@ -70,20 +70,19 @@ const MatchProfileScreen = () => {
     photos,
     loading,
     error,
-    isLiked,
     isDisliked,
     profileData,
   } = useProfileData(userId);
 
   const [hasBeenLiked, setHasBeenLiked] = useState(
-    isLiked || fromTab === "Liked" || isUserLikedInRedux
+    fromTab === "Liked" || isUserLikedInRedux
   );
 
   useEffect(() => {
-    if (isLiked || isUserLikedInRedux) {
+    if (isUserLikedInRedux) {
       setHasBeenLiked(true);
     }
-  }, [isLiked, isUserLikedInRedux]);
+  }, [isUserLikedInRedux]);
 
   const {
     likeLoading,
@@ -96,7 +95,7 @@ const MatchProfileScreen = () => {
     handleDislikeConfirm,
     setShowLikeModal,
     setShowDislikeModal,
-  } = useProfileActions(userProfile, isLiked, isDisliked);
+  } = useProfileActions(userProfile, isDisliked);
 
   const handleRevealContact = async () => {
     try {
@@ -200,7 +199,8 @@ const MatchProfileScreen = () => {
 
   if (!userProfile) return null;
 
-  const { firstName, fullName, age, city, bio, interests, stats } = profileData;
+  const { firstName, fullName, age, city, bio, interests, stats, nickname } =
+    profileData;
 
   const getStatLabel = (key) => {
     return t(`match_profile.stats.${key}`);
@@ -231,7 +231,7 @@ const MatchProfileScreen = () => {
           visible={showDislikeModal}
           onConfirm={handleDislikeConfirm}
           onCancel={() => setShowDislikeModal(false)}
-          userName={firstName}
+          nickname={nickname}
           isLoading={dislikeLoading}
         />
 
@@ -239,7 +239,7 @@ const MatchProfileScreen = () => {
           visible={showLikeModal}
           onConfirm={handleLocalLikeConfirm}
           onCancel={() => setShowLikeModal(false)}
-          userName={firstName}
+          nickname={nickname}
         />
 
         <Animated.View
@@ -302,7 +302,7 @@ const MatchProfileScreen = () => {
             {isMatch && <MatchBanner userName={firstName} isVisible={true} />}
 
             {hasBeenLiked && !isMatch && (
-              <LikeSuccessBanner userName={firstName} />
+              <LikeSuccessBanner nickname={nickname} />
             )}
 
             <View
@@ -318,7 +318,7 @@ const MatchProfileScreen = () => {
                 ]}
               >
                 <Text style={createStyles(isRTL).name}>
-                  {fullName}
+                  {nickname}
                   {age ? `, ${age}` : ""}
                 </Text>
 

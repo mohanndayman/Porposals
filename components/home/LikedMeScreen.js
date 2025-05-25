@@ -567,7 +567,8 @@ const LikedMeScreen = () => {
 
             <TouchableOpacity
               style={styles.emptyStateButton}
-              onPress={() => router.push("(tabs)/Partner")}
+              // onPress={() => router.push("(tabs)/Partner")}
+              onPress={() => router.push("(profile)/fillProfileData")}
             >
               <LinearGradient
                 colors={[COLORS.primary, COLORS.primary]}

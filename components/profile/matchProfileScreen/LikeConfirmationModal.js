@@ -7,7 +7,7 @@ import createMatchProfileStyles from "../../../styles/matchProfileStyle";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 import { StyleSheet } from "react-native";
 
-const LikeConfirmationModal = ({ visible, onConfirm, onCancel, userName }) => {
+const LikeConfirmationModal = ({ visible, onConfirm, onCancel, nickname }) => {
   const { t, isRTL } = useContext(LanguageContext);
   const styles = createMatchProfileStyles(isRTL);
   return (
@@ -25,7 +25,7 @@ const LikeConfirmationModal = ({ visible, onConfirm, onCancel, userName }) => {
           </View>
 
           <Text style={styles.modalText}>
-            Are you sure you want to like {userName}? They will be notified
+            Are you sure you want to like {nickname}? They will be notified
             about your interest.
           </Text>
 

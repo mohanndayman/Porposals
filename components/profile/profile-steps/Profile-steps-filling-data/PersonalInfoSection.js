@@ -183,6 +183,19 @@ const PersonalInfoSection = ({ isRTL = false, t }) => {
         required
         isRTL={isRTL}
       />
+      <FormInput
+        placeholderTextColor={COLORS.primary}
+        control={control}
+        name="nickname"
+        label={t ? t("profile.personal.nick_name") : "Nick Name"}
+        placeholder={
+          t
+            ? t("profile.personal.nick_name_placeholder")
+            : "ُEnter your Nick Name"
+        }
+        required
+        isRTL={isRTL}
+      />
     </View>
   );
 };

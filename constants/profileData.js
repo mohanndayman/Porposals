@@ -66,21 +66,6 @@ export const PROFILE_DATA = {
     { id: 4, name: "Other 🌈" },
   ],
 
-  zodiac_signs: [
-    { id: 1, name: "Aries ♈ (March 21 - April 19)" },
-    { id: 2, name: "Taurus ♉ (April 20 - May 20)" },
-    { id: 3, name: "Gemini ♊ (May 21 - June 20)" },
-    { id: 4, name: "Cancer ♋ (June 21 - July 22)" },
-    { id: 5, name: "Leo ♌ (July 23 - August 22)" },
-    { id: 6, name: "Virgo ♍ (August 23 - September 22)" },
-    { id: 7, name: "Libra ♎ (September 23 - October 22)" },
-    { id: 8, name: "Scorpio ♏ (October 23 - November 21)" },
-    { id: 9, name: "Sagittarius ♐ (November 22 - December 21)" },
-    { id: 10, name: "Capricorn ♑ (December 22 - January 19)" },
-    { id: 11, name: "Aquarius ♒ (January 20 - February 18)" },
-    { id: 12, name: "Pisces ♓ (February 19 - March 20)" },
-  ],
-
   hobbies: [
     { id: 1, name: "Photography 📸" },
     { id: 2, name: "Gardening 🌱" },

@@ -1,82 +1,87 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
+  Modal,
   View,
   Text,
   TouchableOpacity,
+  StyleSheet,
   ActivityIndicator,
-  Animated,
 } from "react-native";
-import { BlurView } from "expo-blur";
+import { LinearGradient } from "expo-linear-gradient";
 import { Feather } from "@expo/vector-icons";
-import { FadeInDown } from "react-native-reanimated";
 import { COLORS } from "../../../constants/colors";
 import createMatchProfileStyles from "../../../styles/matchProfileStyle";
 import { LanguageContext } from "../../../contexts/LanguageContext";
-import { useContext } from "react";
+
 const DislikeConfirmationBanner = ({
   visible,
   onConfirm,
   onCancel,
-  userName,
-  isLoading,
+  nickname,
 }) => {
   const { t, isRTL } = useContext(LanguageContext);
   const styles = createMatchProfileStyles(isRTL);
-  if (!visible) return null;
+
+  const [loading, setLoading] = useState(false);
+
+  const handleConfirm = async () => {
+    setLoading(true);
+    try {
+      await onConfirm(); // Call the provided confirm function
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <>
-      <BlurView intensity={20} style={styles.blurryBackground} tint="dark" />
-
-      <Animated.View
-        style={styles.dislikeConfirmationContainer}
-        entering={FadeInDown.duration(300)}
-      >
-        <View style={styles.dislikeConfirmationContent}>
-          <View style={styles.dislikeConfirmationHeader}>
-            <Feather name="x-circle" size={24} color={COLORS.error} />
-            <Text style={styles.dislikeConfirmationTitle}>
-              Dislike Confirmation
-            </Text>
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={visible}
+      onRequestClose={onCancel}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <View style={styles.modalHeader}>
+            <Feather name="x-circle" size={28} color={COLORS.danger} />
+            <Text style={styles.modalTitle}>Dislike Confirmation</Text>
           </View>
 
-          <Text style={styles.dislikeConfirmationText}>
-            Are you sure you want to dislike {userName}? This profile will no
-            longer appear in your matches.
+          <Text style={styles.modalText}>
+            Are you sure you want to dislike {nickname}? They won't be notified
+            about your decision.
           </Text>
 
-          <View style={styles.dislikeConfirmationActions}>
+          <View style={styles.modalActions}>
             <TouchableOpacity
-              style={[
-                styles.dislikeConfirmationButton,
-                styles.dislikeConfirmationCancelButton,
-              ]}
+              style={[styles.modalButton, styles.modalCancelButton]}
               onPress={onCancel}
-              disabled={isLoading}
+              disabled={loading}
             >
-              <Text style={styles.dislikeConfirmationCancelText}>Cancel</Text>
+              <Text style={styles.modalCancelText}>Cancel</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[
-                styles.dislikeConfirmationButton,
-                styles.dislikeConfirmationConfirmButton,
-              ]}
-              onPress={onConfirm}
-              disabled={isLoading}
+              style={[styles.modalButton, styles.modalConfirmButton]}
+              onPress={handleConfirm}
+              disabled={loading}
             >
-              {isLoading ? (
-                <ActivityIndicator size="small" color={COLORS.white} />
+              <LinearGradient
+                colors={COLORS.dangerGradient || ["#ff6b6b", "#ff4d4d"]}
+                style={StyleSheet.absoluteFill}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+              />
+              {loading ? (
+                <ActivityIndicator color="#fff" size="small" />
               ) : (
-                <Text style={styles.dislikeConfirmationConfirmText}>
-                  Confirm
-                </Text>
+                <Text style={styles.modalConfirmText}>Confirm</Text>
               )}
             </TouchableOpacity>
           </View>
         </View>
-      </Animated.View>
-    </>
+      </View>
+    </Modal>
   );
 };
 

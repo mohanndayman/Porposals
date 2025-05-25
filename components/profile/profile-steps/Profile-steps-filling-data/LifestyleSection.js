@@ -60,7 +60,11 @@ const LifestyleSection = ({ isRTL = false, t, userGender }) => {
   const cities = useSelector((state) =>
     selectCitiesByCountry(state, country_of_residence_id)
   );
-
+  useEffect(() => {
+    if (userGender) {
+      setValue("gender", userGender);
+    }
+  }, [userGender, setValue]);
   useEffect(() => {
     dispatch(fetchAllProfileData());
   }, [dispatch]);
@@ -318,7 +322,6 @@ const LifestyleSection = ({ isRTL = false, t, userGender }) => {
           />
         </AnimatedFormContainer>
       </AnimatedCard>
-
       <AnimatedCard delay={200}>
         <CardHeader {...cardConfigs.personal} isRTL={_isRTL} t={_t} />
         <AnimatedFormContainer isRTL={_isRTL}>
@@ -354,7 +357,6 @@ const LifestyleSection = ({ isRTL = false, t, userGender }) => {
           </FormRow>
         </AnimatedFormContainer>
       </AnimatedCard>
-
       {/* Physical Attributes */}
       <AnimatedCard delay={400}>
         <CardHeader {...cardConfigs.physical} isRTL={_isRTL} t={_t} />
@@ -417,7 +419,22 @@ const LifestyleSection = ({ isRTL = false, t, userGender }) => {
           </FormRow>
         </AnimatedFormContainer>
       </AnimatedCard>
-
+      <AnimatedCard delay={800}>
+        <CardHeader {...cardConfigs.spiritual} isRTL={_isRTL} t={_t} />
+        <AnimatedFormContainer isRTL={_isRTL}>
+          <AnimatedDropdown
+            control={control}
+            name="religion_id"
+            label={_t ? _t("profile.lifestyle.religion") : "Religion"}
+            items={religions}
+            leftIcon={
+              <FeatherIcon name="moon" size={20} color={COLORS.primary} />
+            }
+            required
+            isRTL={_isRTL}
+          />
+        </AnimatedFormContainer>
+      </AnimatedCard>
       {/* Lifestyle & Preferences */}
       <AnimatedCard delay={500}>
         <CardHeader {...cardConfigs.lifestyle} isRTL={_isRTL} t={_t} />
@@ -503,7 +520,6 @@ const LifestyleSection = ({ isRTL = false, t, userGender }) => {
           />
         </AnimatedFormContainer>
       </AnimatedCard>
-
       <AnimatedCard delay={500}>
         <CardHeader {...cardConfigs.lifestyle} isRTL={_isRTL} t={_t} />
         <AnimatedFormContainer isRTL={_isRTL}>
@@ -605,7 +621,6 @@ const LifestyleSection = ({ isRTL = false, t, userGender }) => {
           />
         </AnimatedFormContainer>
       </AnimatedCard>
-
       {/* Hobbies & Interests */}
       <AnimatedCard delay={600}>
         <CardHeader {...cardConfigs.hobbies} isRTL={_isRTL} t={_t} />
@@ -628,7 +643,6 @@ const LifestyleSection = ({ isRTL = false, t, userGender }) => {
           />
         </AnimatedFormContainer>
       </AnimatedCard>
-
       <AnimatedCard delay={700}>
         <CardHeader {...cardConfigs.pets} isRTL={_isRTL} t={_t} />
         <AnimatedFormContainer isRTL={_isRTL}>
@@ -647,24 +661,6 @@ const LifestyleSection = ({ isRTL = false, t, userGender }) => {
                 t={_t}
               />
             )}
-          />
-        </AnimatedFormContainer>
-      </AnimatedCard>
-
-      {/* Religion */}
-      <AnimatedCard delay={800}>
-        <CardHeader {...cardConfigs.spiritual} isRTL={_isRTL} t={_t} />
-        <AnimatedFormContainer isRTL={_isRTL}>
-          <AnimatedDropdown
-            control={control}
-            name="religion_id"
-            label={_t ? _t("profile.lifestyle.religion") : "Religion"}
-            items={religions}
-            leftIcon={
-              <FeatherIcon name="moon" size={20} color={COLORS.primary} />
-            }
-            required
-            isRTL={_isRTL}
           />
         </AnimatedFormContainer>
       </AnimatedCard>
