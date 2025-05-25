@@ -1,0 +1,1025 @@
+{
+  "validation": {
+    "email_required": "Email is required",
+    "email_invalid": "Please enter a valid email address",
+    "password_required": "Password is required",
+    "password_min_length": "Password must be at least 6 characters long",
+    "invalid_credentials": "Invalid email or password"
+  },
+  "language": {
+    "change_title": "Change Language",
+    "change_message": "Are you sure you want to change the language from {current} to {new}?",
+    "restart_required_title": "Restart Required",
+    "restart_required_message": "Please restart the app to apply the language change.",
+    "reload_failed_title": "Reload Failed",
+    "reload_failed_message": "Please restart the app manually to apply the language change.",
+    "change_error_title": "Error",
+    "change_error_message": "Failed to change language. Please try again."
+  },
+  "profile_completion": {
+    "loading": "Loading profile...",
+    "message_title": "Profile in Progress",
+    "message_text": "Complete your profile to unlock personalized matches and begin your journey to meaningful connections.",
+    "resume_progress_title": "Resume Your Progress",
+    "resume_progress_text": "Continue from step {step} of 4",
+    "last_updated": "Last updated: {date}",
+    "step": "Step {step}",
+    "refreshing": "Refreshing...",
+    "refresh": "Refresh",
+    "continue_profile": "Continue Profile",
+    "complete_profile": "Complete Profile"
+  },
+  "verification": {
+    "verify_email": "Verify Your Email",
+    "enter_code": "Enter the 6-digit code sent to",
+    "valid_code": "Please enter a valid 6-digit code",
+    "email_missing": "Email address is missing. Please try registering again.",
+    "failed": "Verification failed. Please try again.",
+    "verify_button": "Verify Email",
+    "didnt_receive": "Didn't receive the code?",
+    "resend_code": "Resend Code",
+    "otp_resent": "OTP Resent",
+    "new_code_sent": "A new code has been sent to your email",
+    "resend_failed": "Resend Failed",
+    "could_not_resend": "Could not resend OTP. Please try again."
+  },
+  "terms": {
+    "title": "Terms and Conditions",
+    "welcome_text": "Welcome to our dating app! Before proceeding, please read and accept our terms and conditions:",
+    "age_requirement": "1. Age Requirement",
+    "age_18": "You must be at least 18 years old to use this service.",
+    "age_accurate": "You agree to provide accurate information about your age.",
+    "profile_content": "2. Profile Content",
+    "profile_accurate": "You agree to provide accurate and truthful information in your profile.",
+    "no_impersonation": "You will not impersonate others or create false identities.",
+    "no_explicit": "You will not post explicit or inappropriate content.",
+    "user_conduct": "3. User Conduct",
+    "user_respect": "You will treat other users with respect and courtesy.",
+    "no_harassment": "You will not harass, stalk, or intimidate other users.",
+    "no_sharing": "You will not share other users' personal information without consent.",
+    "safety": "4. Safety Guidelines",
+    "public_meeting": "We recommend meeting in public places for first dates.",
+    "no_financial": "Do not share financial information with other users.",
+    "report": "Report suspicious or abusive behavior immediately.",
+    "privacy": "5. Privacy",
+    "data_collection": "We collect and process your data as described in our Privacy Policy.",
+    "profile_visible": "Your profile information may be visible to other users.",
+    "privacy_control": "You control your privacy settings and visible information.",
+    "account_security": "6. Account Security",
+    "account_responsibility": "You are responsible for maintaining your account security.",
+    "report_unauthorized": "Report any unauthorized access immediately.",
+    "no_credential_sharing": "Do not share your login credentials with others.",
+    "termination": "7. Termination",
+    "termination_right": "We reserve the right to suspend or terminate accounts that violate these terms.",
+    "delete_account": "You can delete your account at any time.",
+    "updates": "8. Updates to Terms",
+    "periodic_updates": "We may update these terms periodically.",
+    "continued_acceptance": "Continued use after changes constitutes acceptance.",
+    "agreement_text": "By accepting these terms, you acknowledge that you have read, understood, and agree to be bound by all terms and conditions.",
+    "processing": "Processing...",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "filters": {
+    "alerts": {
+      "maxFiltersTitle": "Maximum Filters Reached",
+      "maxFiltersMessage": "You've selected the maximum of 10 filters for the perfect match. To add this filter, please remove another one first."
+    },
+    "errors": {
+      "selectSmokingTools": "Please select at least one smoking tool",
+      "smokingTools": "Please select smoking tools"
+    },
+    "ageRange": {
+      "label": "Age Range",
+      "minAge": "Min Age",
+      "maxAge": "Max Age",
+      "to": "to",
+      "presets": {
+        "young": "Young (18-25)",
+        "mid": "Mid (26-35)",
+        "mature": "Mature (36-45)",
+        "senior": "Senior (46-70)",
+        "allAges": "All Ages"
+      }
+    },
+    "actions": {
+      "addEmploymentPreference": "Add employment preference",
+      "addSmokingPreference": "Add smoking preference",
+      "selectSmokingTools": "Select smoking tools",
+      "search": "Search",
+      "reset": "Reset Filters",
+      "resetAll": "Reset Filters"
+    },
+    "options": {
+      "employed": "Employed",
+      "unemployed": "Unemployed",
+      "socialMedia": {
+        "active": "Active on social media",
+        "moderate": "Moderate social media use",
+        "limited": "Limited social media use",
+        "none": "No social media presence"
+      },
+      "smoking": {
+        "smoker": "Smoker",
+        "nonSmoker": "Non-Smoker"
+      }
+    },
+    "progress": {
+      "match": "Match",
+      "perfectMatch": "Perfect Match!",
+      "youHaveSelected": "You have selected",
+      "filters": "filters",
+      "maxFiltersMessage": "Maximum filters selected! You'll get the most accurate matches."
+    },
+    "loading": "Loading preferences...",
+    "title": "Find Matches",
+    "subtitle": "Select up to {maxFilters} filters for your perfect match",
+    "sections": {
+      "basic": "Basic Information",
+      "education": "Education & Career",
+      "personal": "Personal Attributes",
+      "lifestyle": "Lifestyle & Habits"
+    },
+    "placeholders": {
+      "nationality": "Select nationality (optional)",
+      "origin": "Select origin (optional)",
+      "country": "Select country (optional)",
+      "city": "Select city (optional)",
+      "educationalLevel": "Select educational level (optional)",
+      "specialization": "Select specialization (optional)",
+      "jobTitle": "Select job title (optional)",
+      "financialStatus": "Select financial status (optional)",
+      "marriageBudget": "Select marriage budget (optional)",
+      "height": "Select height (optional)",
+      "weight": "Select weight (optional)",
+      "maritalStatus": "Select marital status (optional)",
+      "socialMediaPresence": "Select social media presence (optional)",
+      "drinkingStatus": "Select drinking status (optional)",
+      "sportsActivity": "Select sports activity (optional)",
+      "sleepHabit": "Select sleep habit (optional)",
+      "religiosityLevel": "Select religiosity level (optional)"
+    },
+    "fields": {
+      "nationality": "Nationality",
+      "origin": "Origin",
+      "country": "Country",
+      "city": "City",
+      "ageRange": "Age Range",
+      "minAge": "Min Age",
+      "maxAge": "Max Age",
+      "educationalLevel": "Educational Level",
+      "specialization": "Specialization",
+      "employmentStatus": "Employment Status",
+      "jobTitle": "Job Title",
+      "financialStatus": "Financial Status",
+      "marriageBudget": "Marriage Budget",
+      "height": "Height",
+      "weight": "Weight",
+      "maritalStatus": "Marital Status",
+      "socialMediaPresence": "Social Media Presence",
+      "smokingStatus": "Smoking Status",
+      "drinkingStatus": "Drinking Status",
+      "sportsActivity": "Sports Activity",
+      "sleepHabit": "Sleep Habit",
+      "pets": "Pets",
+      "religiosityLevel": "Religiosity Level"
+    },
+    "info": { "selectFilters": "Select Filters " }
+  },
+  "checkout": {
+    "checkout": "Checkout",
+    "credit_card": "Credit/Debit Card",
+    "apple_pay": "Apple Pay",
+    "google_pay": "Google Pay",
+    "payment_method": "Payment Method",
+    "select_payment_method": "Please select a payment method",
+    "card_details": "Card Details",
+    "fill_card_details": "Please fill in all card details",
+    "payment_processing": "Payment processing would happen here",
+    "oops": "Oops!",
+    "no_plan_selected": "No plan selected",
+    "go_back_select": "Please go back and select a plan to continue.",
+    "order_summary": "Order Summary",
+    "plan": "Plan",
+    "contacts_per_month": "{{count}} contacts per month",
+    "monthly_subscription": "Monthly Subscription",
+    "discount": "Discount",
+    "total_amount": "Total Amount",
+    "card_number": "Card Number",
+    "expiry_date": "Expiry Date",
+    "cvv": "CVV",
+    "cardholder_name": "Cardholder Name",
+    "pay_amount": "Pay ${{amount}}",
+    "secure_payment": "Secure Payment"
+  },
+  "common": {
+    "email": "Email",
+    "go_back": "Go Back"
+  },
+  "subscription": {
+    "choose_plan": "Choose Your Plan",
+    "upgrade_experience": "Upgrade Your Experience",
+    "select_perfect_plan": "Select the perfect plan for your needs",
+    "all_plans_include": "All Plans Include:",
+    "unlimited_swipes": "Unlimited swipes",
+    "message_encryption": "Message encryption",
+    "profile_visibility": "Profile visibility control",
+    "select_plan_title": "Please select a plan",
+    "select_plan_message": "You need to choose a subscription plan to continue.",
+    "subscribe_to": "Subscribe to {{plan}}",
+    "select_plan": "Select a Plan",
+    "most_popular": "MOST POPULAR",
+    "per_month": "/month",
+    "contact_with_people": "Contact with {{count}} people",
+    "advanced_matching": "Advanced matching algorithm",
+    "premium_matching": "Premium matching & profile boost",
+    "vip_support": "VIP customer support",
+    "plans": {
+      "basic": "Basic",
+      "premium": "Premium",
+      "gold": "Gold"
+    }
+  },
+  "report": {
+    "title": "Report {{name}}",
+    "select_reason": "Please select a reason for reporting:",
+    "specify_reason": "Please specify the reason:",
+    "submit": "Submit Report",
+    "success": "Report Submitted Successfully",
+    "review_message": "Our team will review the report shortly.",
+    "reasons": {
+      "harassment": "Harassment",
+      "fake_profile": "Fake Profile",
+      "inappropriate_content": "Inappropriate Content",
+      "spam": "Spam",
+      "other": "Other"
+    },
+    "other_reason_placeholder": "Describe the issue in English",
+    "other_reason_placeholder_second": "Also in Arabic (optional):",
+    "error": "Something went wrong. Please try again."
+  },
+
+  "register": {
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "phone_number": "Phone Number",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "first_name_placeholder": "Your first name",
+    "last_name_placeholder": "Your last name",
+    "email_placeholder": "Your email address",
+    "phone_placeholder": "Your phone number",
+    "password_placeholder": "Create a secure password",
+    "confirm_password_placeholder": "Confirm your password",
+    "continue": "Continue",
+    "back": "Back",
+    "start_journey": "Start Journey",
+    "step_count": "Step {step} of 2",
+    "male": "Male",
+    "female": "Female",
+    "welcome_title": "Join our Community",
+    "welcome_subtitle": "Create an account to start finding your perfect match",
+    "steps": {
+      "personal_info": "Personal Info",
+      "contact": "Contact",
+      "security": "Security"
+    },
+    "form": {
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "password": "Password",
+      "confirm_password": "Confirm Password",
+      "next": "Next",
+      "back": "Back",
+      "register": "Register",
+      "date_of_birth": "Date of Birth",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female"
+    },
+    "errors": {
+      "title": "Registration Error",
+      "failed": "Registration failed. Please try again.",
+      "email_exists": "This email is already registered",
+      "phone_exists": "This phone number is already registered",
+      "passwords_not_match": "Passwords do not match",
+      "required_field": "This field is required"
+    },
+    "terms": {
+      "title": "Terms and Conditions",
+      "agree": "I Agree",
+      "decline": "Decline",
+      "content": "By creating an account, you agree to our Terms of Service and Privacy Policy."
+    },
+    "already_member": "Already have an account? Sign In",
+    "password_requirements": {
+      "title": "Password must:",
+      "length": "Be at least 8 characters long",
+      "uppercase": "Contain at least one uppercase letter",
+      "lowercase": "Contain at least one lowercase letter",
+      "number": "Contain at least one number",
+      "special": "Contain at least one special character"
+    }
+  },
+  "welcome": {
+    "title": "Find Your Perfect Match",
+    "subtitle": "Begin your journey to discover meaningful connections and lasting love",
+    "features": {
+      "safe": "Safe & Secure",
+      "verified": "Verified Profiles",
+      "quality": "Quality Matches"
+    }
+  },
+  "auth": {
+    "welcome_title": "Welcome back",
+    "welcome_subtitle": "Are you ready to continue your journey to love?",
+    "email": "Email",
+    "email_placeholder": "Enter your email",
+    "password": "Password",
+    "password_placeholder": "Enter your password",
+    "forgot_password": "Forgot password?",
+    "continue_journey": "Continue the journey",
+    "sign_in_with_face_id": "Sign in with Face ID",
+    "new_user": "New to the search for love?",
+    "sign_up": "Sign Up",
+    "invalid_credentials": "Invalid email or password",
+    "login": "Login",
+    "signup": "Sign Up",
+    "forgotPassword": "Forgot password?",
+    "register": "Register",
+    "already_have_account": "Already have an account?",
+    "sign_in": "Sign In",
+    "email_required": "Email is required",
+    "email_invalid": "Please enter a valid email",
+    "password_required": "Password is required",
+    "password_min_length": "Password must be at least 8 characters",
+    "password_confirmation": "Confirm Password",
+    "passwords_not_match": "Passwords do not match",
+    "reset_password": "Reset Password",
+    "reset_password_instructions": "Enter your email and we'll send you instructions to reset your password.",
+    "reset_password_success": "Check your email for password reset instructions",
+    "reset_link_sent": "Reset link sent!",
+    "biometric_auth": "Biometric Authentication",
+    "login": "Login",
+    "create_account": "Create New Account"
+  },
+  "common": {
+    "email": "Email",
+    "phone": "Phone Number",
+    "welcome": "Welcome",
+    "home": "Home",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout",
+    "changeLanguage": "Change Language",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "retry": "Retry",
+    "pull_to_refresh": "Pull to refresh",
+    "error": "Error",
+    "success": "Success",
+    "back": "Go back",
+    "done": "Done",
+    "previous": "Previous",
+    "next": "Next",
+    "submit": "Submit",
+    "select_date": "Select Date",
+    "confirm": "Confirm",
+    "date_error": "Please select a valid date",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "required": "Required",
+    "clear": "Clear",
+    "save": "Save",
+    "loading": "Loading..."
+  },
+
+  "status": {
+    "in_progress": "In Progress",
+    "open": "Open",
+    "pending": "Pending",
+    "closed": "Closed",
+    "resolved": "Resolved"
+  },
+  "tickets": {
+    "createFirst": "Create First",
+    "noTicketsTitle": "You have no tickets yet.",
+    "description": "Description",
+    "subject": "Subject",
+    "noRepliesYet": "No Replies Yet",
+    "conversation": "Conversation",
+    "descriptionTitle": "Description",
+    "ticketDetails": "Ticket Details",
+    "myTickets": "My Tickets",
+    "newTicket": "New Ticket",
+    "subjectPlaceholder": "Subject",
+    "descriptionPlaceholder": "Describe your issue...",
+    "replyPlaceholder": "Write your reply...",
+    "reply": "Send Reply",
+    "noTickets": "You have no tickets yet.",
+    "ticketCreated": "Ticket created successfully!",
+    "replyAdded": "Reply sent successfully!",
+    "viewDetails": "Show Details"
+  },
+  "profile": {
+    "gender_profile": "Gender",
+    "pets_profile": "Pets",
+    "social_media": "Social Media Presence",
+    "hobbies_profile": "Hobbies",
+    "tickets": "My Tickets",
+    "support_tickets": "View your support tickets",
+    "change_language_title": "Change Language",
+    "change_language_message": "Do you want to change the language from {{from}} to {{to}}?",
+    "language_changed_restart": "Language changed successfully. The app will restart to apply changes.",
+    "language_change_error": "Failed to change language. Please try again.",
+    "language_changed": "Language changed successfully",
+
+    "language": "Language",
+    "subscription": "Subscription",
+    "upgrade_plan": "Upgrade your plan",
+    "logout": "Logout",
+    "logout_title": "Logout",
+    "logout_message": "Are you sure you want to log out?",
+    "logout_failed": "Logout Failed",
+    "logout_error": "Unable to logout. Please try again.",
+    "update_photo": "Update profile photo",
+    "update_photo_hint": "Double tap to choose a new profile photo",
+    "logout_title": "Logout",
+    "logout_message": "Are you sure you want to log out?",
+    "logout": "Logout",
+    "logout_failed": "Logout Failed",
+    "logout_error": "Unable to logout. Please try again.",
+    "photo_upload_error": "Failed to update profile photo. Please try again.",
+    "error_occurred": "An error occurred:",
+    "no_data": "No profile data available.",
+    "completion": "Profile Completion:",
+    "complete": "Profile Complete!",
+    "not_provided": "Not provided",
+    "complete_profile": "Complete Your Profile",
+    "profile_description": "Create a profile that truly represents you",
+    "loading_profile": "Loading your profile...",
+    "form_steps": {
+      "personal": {
+        "title": "Personal Information",
+        "description": "Tell us about yourself"
+      },
+      "lifestyle": {
+        "title": "Lifestyle",
+        "description": "Your habits and preferences"
+      },
+      "education": {
+        "title": "Education & Work",
+        "description": "Professional information"
+      },
+      "photos": {
+        "title": "Profile Photos",
+        "description": "Upload your best pictures"
+      }
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending"
+    },
+
+    "sections": {
+      "basic_information": "Basic Information",
+      "demographics": "Demographics",
+      "professional_information": "Professional Information",
+      "personal_details": "Personal Details",
+      "appearance": "Appearance",
+      "lifestyle": "Lifestyle",
+      "contact": "Contact"
+    },
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "phone_number": "Phone Number",
+    "gender": "Gender",
+    "nationality": "Nationality",
+    "origin": "Origin",
+    "religion": "Religion",
+    "country": "Country",
+    "city": "City",
+    "date_of_birth": "Date of Birth",
+    "zodiac_sign": "Zodiac Sign",
+    "educational_level": "Education",
+    "specialization": "Specialization",
+    "employment_status": "Employment Status",
+    "job_title": "Job Title",
+    "position_level": "Position Level",
+    "financial_status": "Financial Status",
+    "housing_status": "Housing Status",
+    "car_ownership": "Car Ownership",
+    "height": "Height",
+    "weight": "Weight",
+    "marital_status": "Marital Status",
+    "children": "Children",
+    "skin_color": "Skin Color",
+    "hair_color": "Hair Color",
+    "hijab_status": "Hijab Status",
+    "smoking_status": "Smoking Status",
+    "drinking_status": "Drinking Status",
+    "sports_activity": "Sports Activity",
+    "social_media_presence": "Social Media",
+    "hobbies": "Hobbies",
+    "pets": "Pets",
+
+    "guardian_contact": "Guardian Contact",
+    "personal": {
+      "title": "Tell us about yourself",
+      "subtitle": "Let's start with your basic information",
+      "bio_en": "About You (English)",
+      "bio_en_placeholder": "Share a brief introduction about yourself...",
+      "bio_ar": "About You (Arabic)",
+      "bio_ar_placeholder": "Share a brief introduction about yourself...",
+      "gender": "Gender",
+      "hijab_preference": "Hijab Preference",
+      "wears_hijab": "Wears Hijab",
+      "no_hijab": "No Hijab",
+      "hijab_error": "Please select your hijab preference",
+      "date_of_birth": "Date of Birth",
+      "guardian_contact": "Guardian Contact",
+      "guardian_contact_placeholder": "Enter phone number"
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "error": "Please select your gender"
+    },
+    "lifestyle": {
+      "eye_colors": "Eye Colors",
+      "loading": "Loading profile attributes...",
+      "nationality": "Nationality",
+      "country": "Country of Residence",
+      "city": "City",
+      "origin": "Origin",
+      "marital_status": "Marital Status",
+      "children_label": "Children",
+      "height": "Height",
+      "weight": "Weight",
+      "hair_color": "Hair Color",
+      "skin_color": "Skin Color",
+      "marriage_budget": "Marriage Budget",
+      "religiosity": "Religiosity Level",
+      "sleep_habits": "Sleep Habits",
+      "sports": "Sports Activity",
+      "smoking_status": "Smoking Status",
+      "smoking_tools": "Smoking Tools",
+      "smoking_preferences": "Smoking Preferences (Required)",
+      "smoking_tools_required": "Please select at least one smoking tool",
+      "drinking_status": "Drinking Status",
+      "religion": "Religion",
+      "children": {
+        "none": "No Children 🚫",
+        "one": "1 Child 👶",
+        "two": "2 Children 🧒👧",
+        "three": "3 Children 👧🧒👦",
+        "four_plus": "4 or More Children 👨‍👩‍👧‍👦"
+      },
+      "smoking": {
+        "non_smoker": "Non-smoker",
+        "regular": "Regular smoker",
+        "social": "Social smoker"
+      },
+      "smoking_tool": {
+        "cigarettes": "Cigarettes",
+        "cigarette": "Cigarette",
+        "shisha": "Shisha",
+        "hookah": "Hookah",
+        "e_cigarettes": "E-cigarettes",
+        "vape": "Vape",
+        "other": "Other"
+      }
+    },
+    "cards": {
+      "origin": {
+        "title": "Origin & Residence",
+        "description": "Roots and current home that shape you"
+      },
+      "personal": {
+        "title": "Personal Information",
+        "description": "Basic details about yourself"
+      },
+      "employment": {
+        "title": "Employment & Financial",
+        "description": "Career and financial status"
+      },
+      "preferences": {
+        "title": "Personal Preferences",
+        "description": "Your lifestyle choices and preferences"
+      },
+      "physical": {
+        "title": "Physical Attributes",
+        "description": "Your unique physical characteristics"
+      },
+      "hobbies": {
+        "title": "Hobbies & Interests",
+        "description": "Explore the passions that define you"
+      },
+      "lifestyle": {
+        "title": "Lifestyle Choices",
+        "description": "Your personal preferences and habits"
+      },
+      "pets": {
+        "title": "Pets",
+        "description": "Your furry or feathered companions"
+      },
+      "spiritual": {
+        "title": "Spiritual Beliefs",
+        "description": "Your spiritual perspective"
+      }
+    },
+    "hobbies": {
+      "photography": "Photography",
+      "gardening": "Gardening",
+      "painting": "Painting",
+      "cycling": "Cycling",
+      "hiking": "Hiking",
+      "reading": "Reading",
+      "cooking": "Cooking",
+      "music": "Music",
+      "travel": "Travel",
+      "gaming": "Gaming",
+      "writing": "Writing",
+      "dancing": "Dancing",
+      "shopping": "Shopping",
+      "sports": "Sports",
+      "movies": "Movies"
+    },
+    "pets": {
+      "cat": "Cat",
+      "dog": "Dog",
+      "bird": "Bird",
+      "fish": "Fish",
+      "hamster": "Hamster",
+      "rabbit": "Rabbit",
+      "reptile": "Reptile",
+      "other": "Other"
+    },
+    "education": {
+      "loading": "Loading professional data...",
+      "section_title": "Your Professional Journey",
+      "section_subtitle": "Craft the story of your educational and career path 🚀",
+      "education_level": "Education Level 📚",
+      "field_of_study": "Field of Study 📖",
+      "employment_status": "Employment Status",
+      "employed": "Employed",
+      "not_employed": "Not Employed",
+      "job_title": "Job Title 💼",
+      "job_title_required": "Job title is required",
+      "position_level": "Position Level 📈",
+      "position_level_required": "Position level is required",
+      "financial_status": "Financial Status 💵",
+      "housing_status": "Housing Status 🏠",
+      "social_media": "Social Media Presence 📱",
+      "zodiac_sign": "Zodiac Sign ✨",
+      "car_ownership": "Car Ownership 🚗",
+      "cards": {
+        "educational_background": "Educational Background",
+        "your_academic_achievements_and_specialization": "Your academic achievements and specialization",
+        "job_details": "Job Details",
+        "your_professional_information": "Your professional information",
+        "financial_information": "Financial Information",
+        "your_financial_stability_and_housing": "Your financial stability and housing",
+        "online_presence": "Online Presence",
+        "your_social_media_and_digital_footprint": "Your social media and digital footprint",
+        "cosmic_identity": "Cosmic Identity",
+        "your_astrological_sign": "Your astrological sign"
+      }
+    },
+    "images": {
+      "load_error": "Cant load the image ",
+
+      "title": "Profile Picture 📸",
+      "subtitle": "Make a great first impression with your best photo",
+      "change_photo": "Change Photo",
+      "tap_to_add": "Tap to add your profile picture ✨",
+      "take_photo": "Take Photo",
+      "choose_gallery": "Choose from Gallery",
+      "remove_photo": "Remove Photo",
+      "permission_title": "Permission Required",
+      "permission_message": "Sorry, we need camera roll permissions to make this work!",
+      "camera_permission_title": "Permission needed",
+      "camera_permission_message": "Camera permission is required",
+      "upload_error": "Failed to upload image. Please try again.",
+      "pick_error": "Failed to pick image. Please try again.",
+      "remove_error": "Failed to remove image. Please try again.",
+      "size_error": "Image size should be less than 5MB"
+    },
+    "common": {
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "ok": "OK",
+      "error": "Error",
+      "success": "Success"
+    }
+  },
+  "tabs": {
+    "home": "Home",
+    "matches": "Matches",
+    "Partner": "Partner",
+    "profile": "Profile"
+  },
+  "home": {
+    "find_match": "Find Your Perfect Match",
+    "connections_begin": "Where Meaningful Connections Begin",
+    "get_started": "Get Started",
+    "active_users": "Active Users",
+    "daily_matches": "Daily Matches",
+    "success_rate": "Success Rate",
+    "premium_features": "Premium Features",
+    "success_stories": "Success Stories",
+    "features": {
+      "values_based": {
+        "title": "Values-Based Matching",
+        "description": "Find partners who share your Islamic values"
+      },
+      "privacy": {
+        "title": "Privacy Protection",
+        "description": "Maintain modesty with privacy features"
+      },
+      "guardian": {
+        "title": "Guardian Involvement",
+        "description": "Include your wali in the process"
+      },
+      "compatibility": {
+        "title": "Compatibility Quiz",
+        "description": "Questions on deen, family and lifestyle"
+      }
+    },
+    "testimonials": {
+      "aisha": {
+        "text": "This app helped me find someone who truly shares my Islamic values. The guardian feature was especially helpful for my family.",
+        "name": "Aisha Rahman",
+        "location": "London, UK"
+      },
+      "muhammad": {
+        "text": "I appreciated how the app let me filter by prayer habits and other important religious practices. I found my husband here!",
+        "name": "Muhammad Qasim",
+        "location": "Dubai, UAE"
+      },
+      "fatima": {
+        "text": "The values-based matching helped me connect with sisters who share my commitment to the deen. Alhamdulillah!",
+        "name": "Fatima Hassan",
+        "location": "Toronto, Canada"
+      }
+    }
+  },
+  "search": {
+    "filter_message": {
+      "title": "Perfect Match Guide",
+      "content": "You've selected {{current}} of {{max}} filters. Choose {{remaining}} more for a 100% perfect match!"
+    },
+    "tips": {
+      "partially_completed": "Complete all sections to find your perfect match! You can search with partially completed preferences.",
+      "get_started": "Tap on a section to start setting your preferences. You don't need to complete all sections to search."
+    },
+    "lifestyle": {
+      "description": "Set preferences for lifestyle habits and preferences",
+      "smoking_status": "Smoking Status",
+      "smoker": "Smoker",
+      "add_smoking_preference": "Add smoking preference",
+      "smoking_tools": "Smoking Tools",
+      "drinking_status": "Drinking Status",
+      "select_drinking_status": "Select drinking status (optional)",
+      "sports_activity": "Sports Activity",
+      "select_sports_activity": "Select sports activity (optional)",
+      "sleep_habit": "Sleep Habit",
+      "select_sleep_habit": "Select sleep habit (optional)",
+      "pets": "Pets",
+      "religiosity_level": "Religiosity Level",
+      "select_religiosity_level": "Select religiosity level (optional)",
+      "errors": {
+        "missing_info": "Missing Information",
+        "smoking_tools_required": "Please select at least one smoking tool since you've selected 'Smoker'.",
+        "select_smoking_tool": "Please select at least one smoking tool."
+      }
+    },
+    "personal": {
+      "description": "Set preferences for physical and personal attributes",
+      "height": "Height",
+      "select_height": "Select height (optional)",
+      "weight": "Weight",
+      "select_weight": "Select weight (optional)",
+      "marital_status": "Marital Status",
+      "select_marital_status": "Select marital status (optional)",
+      "social_media": "Social Media Presence",
+      "select_social_media": "Select social media presence (optional)",
+      "social_media_options": {
+        "active": "Active on social media",
+        "moderate": "Moderate social media use",
+        "limited": "Limited social media use",
+        "none": "No social media presence"
+      }
+    },
+    "education": {
+      "description": "Specify educational and career preferences for your ideal match",
+      "educational_level": "Educational Level",
+      "select_educational_level": "Select educational level (optional)",
+      "specialization": "Specialization",
+      "select_specialization": "Select specialization (optional)",
+      "employment_status": "Employment Status",
+      "employed": "Employed",
+      "not_employed": "Unemployed",
+      "add_employment_preference": "Add employment preference",
+      "job_title": "Job Title",
+      "select_job_title": "Select job title (optional)",
+      "financial_status": "Financial Status",
+      "select_financial_status": "Select financial status (optional)",
+      "marriage_budget": "Marriage Budget",
+      "select_marriage_budget": "Select marriage budget (optional)"
+    },
+    "loading_preferences": "Loading preferences...",
+    "errors": {
+      "preferences_load": "Failed to load preferences. Please try again.",
+      "data_load": "Failed to load search data. Please try again.",
+      "submit_preferences": "Failed to submit search preferences. Please try again."
+    },
+    "buttons": {
+      "done": "Done",
+      "search": "Search",
+      "reset": "Reset",
+      "continue": "Continue",
+      "view_results": "View Results",
+      "find_matches": "Find Matches ({{completed}}/4 completed)",
+      "find_matches_accessibility": "Find matches",
+      "view_results": "View Previous Results",
+      "view_results_accessibility": "View previous results",
+      "reset_filters": "Reset All Filters",
+      "reset_filters_accessibility": "Reset all filters",
+      "done": "Done"
+    },
+    "reset_title": "Reset Preferences",
+    "reset_message": "Are you sure you want to reset all search preferences to default values?",
+    "reset_button": "Reset",
+    "reset_success": "Preferences have been reset to default values.",
+    "sections": {
+      "basic": {
+        "title": "Basic Information",
+        "subtitle": "Nationality, location, age range"
+      },
+      "education": {
+        "title": "Education & Career",
+        "subtitle": "Education, job, financial status"
+      },
+      "personal": {
+        "title": "Personal Attributes",
+        "subtitle": "Height, weight, marital status"
+      },
+      "lifestyle": {
+        "title": "Lifestyle",
+        "subtitle": "Habits, pets, religiosity"
+      }
+    },
+    "preferences_saved": {
+      "title": "Your filters are saved!",
+      "message": "These preferences will be automatically applied each time you return to the search screen."
+    },
+    "find_match": "Find Your Match",
+    "complete_sections": "Complete the sections below to find your perfect partner",
+    "basic_info": {
+      "description": "Tell us about the basic attributes you're looking for in a partner",
+      "nationality": "Nationality",
+      "select_nationality": "Select nationality (optional)",
+      "origin": "Origin",
+      "select_origin": "Select origin (optional)",
+      "country": "Country",
+      "select_country": "Select country (optional)",
+      "city": "City",
+      "select_city": "Select city (optional)",
+      "age_range": "Age Range",
+      "years": "years",
+      "save_complete": "Save & Complete This Section"
+    },
+    "age_ranges": {
+      "all_ages": "All Ages"
+    },
+    "unified": {
+      "title": "Partner Preferences",
+      "filter_count": "You have selected {{count}} / {{max}} filters",
+      "max_filters_title": "How Matching Works",
+      "max_filters_info": "Select up to 10 primary filters to find your ideal match. When you reach 10 filters, you'll have a 100% match potential with profiles that meet all your criteria. Choose your most important preferences wisely!"
+    },
+    "max_filters": {
+      "title": "Maximum Filters Reached",
+      "message": "You've selected the maximum of 10 filters for the perfect match. To add this filter, please remove another one first."
+    },
+    "perfect_match": "Perfect Match!",
+    "match": "Match"
+  },
+  "match_profile": {
+    "phone": "Phone Number",
+    "reveal_contact": "Reaveal Contact",
+    "email": "Email",
+    "contact_info": "Contact Info",
+    "match_description": "Match Description",
+    "matched": "matches",
+    "loading": "Loading profile...",
+    "error": "Failed to load profile",
+    "retry": "Retry",
+    "checking_match": "Checking for a match...",
+    "about": "About",
+    "interests": "Interests",
+    "basic_info": "Basic Info",
+    "report": "Report",
+    "like": "Like",
+    "liked": "Liked",
+    "dislike": "Dislike",
+    "match_percentage": "Match",
+    "stats": {
+      "height": "Height",
+      "weight": "Weight",
+      "marital_status": "Marital Status",
+      "children": "Children",
+      "smoking": "Smoking",
+      "drinking": "Drinking",
+      "employment": "Employment",
+      "education": "Education",
+      "religion": "Religion",
+      "zodiac": "Zodiac",
+      "sports": "Sports Activity",
+      "sleep": "Sleep Habit",
+      "pets": "Pets"
+    },
+    "dislike_confirmation": {
+      "title": "Are you sure?",
+      "message": "This will remove {name} from your matches.",
+      "confirm": "Yes, Dislike",
+      "cancel": "Cancel"
+    },
+    "like_confirmation": {
+      "title": "Confirm Like",
+      "message": "Do you want to like {name}?",
+      "confirm": "Yes, Like",
+      "cancel": "Cancel"
+    },
+    "like_success": {
+      "message": "You liked {name}! We'll notify you if it's a match."
+    }
+  },
+  "matches": {
+    "no_filters": {
+      "title": "Set Your Preferences",
+      "description": "Select your preferences to see potential matches that meet your criteria.",
+      "button": "Start Searching"
+    },
+    "header": {
+      "discover": "Discover",
+      "open_filters": "Open filters",
+      "close_filters": "Close filters"
+    },
+    "filters": {
+      "matches": "Matches",
+      "title": "Filters",
+      "all": "All",
+      "liked": "Liked",
+      "age_range": "Age Range",
+      "min": "Min",
+      "max": "Max",
+      "apply": "Apply Filters",
+      "reset": "Reset Filters"
+    },
+    "sections": {
+      "preference_matches": "Preference Matches",
+      "suggested_matches": "Suggested Matches",
+      "profiles_liked": "Profiles You Liked",
+      "more_profiles_liked": "More Profiles You Liked",
+      "see_all": "See All",
+      "match": "match"
+    },
+    "cards": {
+      "verified": "Verified",
+      "premium": "Premium",
+      "match": "Match",
+      "active": "Just now",
+      "miles_away": "miles away"
+    },
+    "empty_states": {
+      "preferences": {
+        "title": "No Preference Matches",
+        "description": "We couldn't find exact matches for your preferences. Try adjusting your search criteria."
+      },
+      "suggested": {
+        "title": "No Suggested Matches",
+        "description": "No suggested matches at the moment. Check back later or modify your filters."
+      },
+      "liked": {
+        "title": "No Liked Profiles",
+        "description": "You haven't liked anyone yet. Browse matches and tap the heart icon to see them here."
+      }
+    },
+    "errors": {
+      "data_load": "There was a problem loading matches. Please try again later.",
+      "refresh_failed": "There was a problem refreshing your matches. Please try again."
+    }
+  }
+}
