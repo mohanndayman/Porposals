@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   Animated,
   I18nManager,
+  Alert,
 } from "react-native";
 import { LanguageContext } from "../../contexts/LanguageContext";
 
@@ -169,6 +170,7 @@ export const TermsModal = ({
 
   const handleAccept = async () => {
     try {
+      console.log("Terms accepted, starting registration process...");
       setIsLoading(true);
 
       Animated.timing(fadeAnim, {
@@ -177,15 +179,29 @@ export const TermsModal = ({
         useNativeDriver: true,
       }).start();
 
+      // Validate that onAccept is a function
+      if (typeof onAccept !== "function") {
+        throw new Error("onAccept callback is not a function");
+      }
+
       await onAccept();
+      console.log("Registration process completed successfully");
 
       setIsLoading(false);
       fadeAnim.setValue(0);
     } catch (error) {
       console.error("Error accepting terms:", error);
+      console.error("Error stack:", error.stack);
 
       setIsLoading(false);
       fadeAnim.setValue(0);
+
+      // Show user-friendly error message
+      Alert.alert(
+        "Registration Error",
+        "There was an error processing your registration. Please try again.",
+        [{ text: "OK" }]
+      );
     }
   };
 

@@ -32,35 +32,62 @@ const STEP_FIELDS = {
 };
 
 const FIELD_MAPPING = {
-  bio_en: "bio_en",
+  bio_en: "bio",
+  bio: "bio",
   date_of_birth: "date_of_birth",
   nationality_id: "nationality",
+  nationality: "nationality",
   religion_id: "religion",
+  religion: "religion",
   country_of_residence_id: "country_of_residence",
+  country_of_residence: "country_of_residence",
   city_id: "city",
+  city: "city",
   origin_id: "origin",
+  origin: "origin",
   hair_color_id: "hair_color",
-  eye_color: "eye colors",
+  hair_color: "hair_color",
+  eye_color: "eye_color",
   skin_color_id: "skin_color",
+  skin_color: "skin_color",
   marital_status_id: "marital_status",
+  marital_status: "marital_status",
   number_of_children: "children",
+  children: "children",
   drinking_status_id: "drinking_status",
+  drinking_status: "drinking_status",
   sports_activity_id: "sports_activity",
+  sports_activity: "sports_activity",
   sleep_habit_id: "sleep_habit",
+  sleep_habit: "sleep_habit",
   marriage_budget_id: "marriage_budget",
+  marriage_budget: "marriage_budget",
   religiosity_level_id: "religiosity_level",
+  religiosity_level: "religiosity_level",
   educational_level_id: "educational_level",
+  educational_level: "educational_level",
   specialization_id: "specialization",
+  specialization: "specialization",
   position_level_id: "position_level",
+  position_level: "position_level",
   job_title_id: "job_title",
+  job_title: "job_title",
   financial_status_id: "financial_status",
+  financial_status: "financial_status",
   housing_status_id: "housing_status",
+  housing_status: "housing_status",
   social_media_presence_id: "social_media_presence",
+  social_media_presence: "social_media_presence",
   smoking_status: "smoking_status",
+  weight: "weight",
+  height: "heeight",
+  guardian_contact: "guardian_contact",
 };
 
 // Strict validation for field completion
 const isFieldComplete = (key, value, combinedData) => {
+  console.log(`Checking field ${key} with value:`, value);
+
   // Special handling for specific fields
   switch (key) {
     case "employment_status":
@@ -96,6 +123,7 @@ const isFieldComplete = (key, value, combinedData) => {
       );
 
     case "bio_en":
+    case "bio":
       // Check for non-empty bio
       return value && value.trim().length > 0;
 
@@ -106,6 +134,18 @@ const isFieldComplete = (key, value, combinedData) => {
     case "guardian_contact":
       // Optional for some users
       return true;
+
+    case "height":
+      // Handle the typo in field name (heeight)
+      return value !== null && value !== undefined && value !== "";
+
+    case "weight":
+      // Handle weight field
+      return value !== null && value !== undefined && value !== "";
+
+    case "smoking_status":
+      // Handle boolean smoking status
+      return value === true || value === false || value === 1 || value === 0;
 
     default:
       // More lenient check for most fields
@@ -118,13 +158,26 @@ const isFieldComplete = (key, value, combinedData) => {
         return value !== null && value !== undefined;
       }
 
+      // For string fields, check if they have meaningful content
+      if (typeof value === "string") {
+        return value !== null && value !== undefined && value.trim() !== "";
+      }
+
+      // For boolean fields
+      if (typeof value === "boolean") {
+        return true; // Consider boolean fields complete regardless of value
+      }
+
       return value !== null && value !== undefined && value !== "";
   }
 };
 
 export const calculateProfileProgress = (userData, savedProgress = null) => {
+  console.log("calculateProfileProgress called with userData:", userData);
+
   // If no user data, return base progress
   if (!userData) {
+    console.log("No user data provided, returning 0 progress");
     return {
       progress: 0,
       stepProgress: Object.keys(STEP_FIELDS).reduce((acc, step) => {
@@ -153,6 +206,8 @@ export const calculateProfileProgress = (userData, savedProgress = null) => {
     ...(savedProgress?.formData || {}),
   };
 
+  console.log("Combined data for validation:", combinedData);
+
   const stepProgress = {};
   const missingFields = [];
   let totalCompleted = 0;
@@ -170,16 +225,20 @@ export const calculateProfileProgress = (userData, savedProgress = null) => {
         combinedData[key] ||
         (FIELD_MAPPING[key] ? combinedData[FIELD_MAPPING[key]] : null);
 
+      console.log(`Step ${step}, Field ${key}:`, fieldValue);
+
       const isCompleted = isFieldComplete(key, fieldValue, combinedData);
 
       if (isCompleted) {
         completedInStep++;
         totalCompleted++;
+        console.log(`✓ Field ${key} is complete`);
       } else {
         stepMissingFields.push({
           label,
           step: Number(step),
         });
+        console.log(`✗ Field ${key} is incomplete`);
       }
     });
 
@@ -187,6 +246,7 @@ export const calculateProfileProgress = (userData, savedProgress = null) => {
     if (step === "1" && completedInStep === 0 && combinedData.bio) {
       completedInStep = 1;
       totalCompleted++;
+      console.log("Added bonus completion for bio field");
     }
 
     stepProgress[step] = {
@@ -204,6 +264,11 @@ export const calculateProfileProgress = (userData, savedProgress = null) => {
     // Ensure some progress for users with partial data
     combinedData.language ? 10 : 0
   );
+
+  console.log(
+    `Final progress calculation: ${totalCompleted}/${totalFields} = ${calculatedProgress}%`
+  );
+  console.log("Missing fields:", missingFields);
 
   return {
     progress: calculatedProgress,

@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
+import { scrollViewRtl } from "../../styles/register.styles";
 import { useDispatch, useSelector } from "react-redux";
 import { router } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
@@ -22,7 +23,8 @@ import { useRegisterForm } from "../../hooks/useRegisterForm";
 import { registerStyles } from "../../styles/register.styles";
 import { TermsModal } from "../../components/auth/TermsModal";
 import { LanguageContext } from "../../contexts/LanguageContext";
-
+import ErrorBoundary from "../../components/common/ErrorBoundary";
+import styles from "../../styles/register.styles";
 const WelcomeMessage = ({ isRTL, t }) => (
   <View style={registerStyles.welcomeContainer}>
     <Text style={registerStyles.welcomeEmoji}>💝</Text>
@@ -44,6 +46,7 @@ export default function RegisterScreen() {
   const { locale, isRTL, changeLanguage, t } = useContext(LanguageContext);
 
   const handleValidationError = (error) => {
+    console.log("Handling validation error:", error);
     setTermsVisible(false);
 
     if (error.errors) {
@@ -52,21 +55,56 @@ export default function RegisterScreen() {
         validationErrors[field] = messages[0];
       });
 
+      console.log("Setting validation errors:", validationErrors);
       form.setValidationErrorsWithAPI(validationErrors);
 
-      if (error.errors.email || error.errors.phone_number) {
-        Alert.alert(
-          t("register.registration_error"),
-          error.errors.email || error.errors.phone_number,
-          [
+      // Handle specific validation errors
+      if (error.errors.email) {
+        const emailError = error.errors.email[0];
+        const isEmailTaken =
+          emailError.toLowerCase().includes("already been taken") ||
+          emailError.toLowerCase().includes("already exists");
+
+        if (isEmailTaken) {
+          Alert.alert(
+            t("register.registration_error"),
+            "This email is already registered. Would you like to go to the login page?",
+            [
+              { text: "Cancel", style: "cancel" },
+              {
+                text: "Go to Login",
+                onPress: () => {
+                  router.push("/(auth)/login");
+                },
+              },
+            ]
+          );
+        } else {
+          Alert.alert(t("register.registration_error"), emailError, [
             {
               text: t("register.ok"),
               onPress: () => {
                 form.goToStep(1);
               },
             },
-          ]
-        );
+          ]);
+        }
+      } else if (error.errors.phone_number) {
+        const phoneError = error.errors.phone_number[0];
+        Alert.alert(t("register.registration_error"), phoneError, [
+          {
+            text: t("register.ok"),
+            onPress: () => {
+              form.goToStep(1);
+            },
+          },
+        ]);
+      } else {
+        // Handle other validation errors
+        const firstError = Object.values(error.errors)[0][0];
+        Alert.alert(t("register.registration_error"), firstError, [
+          { text: t("register.ok") },
+        ]);
       }
     } else {
       Alert.alert(
@@ -82,27 +120,135 @@ export default function RegisterScreen() {
 
   const handleAcceptTerms = async () => {
     try {
-      const result = await dispatch(register(registrationData)).unwrap();
+      console.log("Starting registration process...");
+      console.log("Registration data:", registrationData);
 
-      if (result.success) {
+      // Validate registration data before proceeding
+      if (!registrationData || !registrationData.email) {
+        console.error(
+          "Registration data is missing or invalid:",
+          registrationData
+        );
+        Alert.alert(
+          t("register.registration_error"),
+          "Invalid registration data. Please try again.",
+          [{ text: t("register.ok") }]
+        );
         setTermsVisible(false);
         setRegistrationData(null);
-        router.push({
-          pathname: "/(auth)/verify-otp",
-          params: { email: registrationData.email },
-        });
         return;
       }
 
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error("Registration timeout")), 30000); // 30 seconds
+      });
+
+      const registrationPromise = dispatch(register(registrationData)).unwrap();
+
+      const result = await Promise.race([registrationPromise, timeoutPromise]);
+      console.log("Registration result:", result);
+
+      if (result.success) {
+        console.log(
+          "Registration successful, navigating to OTP verification..."
+        );
+        setTermsVisible(false);
+        setRegistrationData(null);
+
+        // Wrap navigation in try-catch to prevent crashes
+        try {
+          await router.push({
+            pathname: "/(auth)/verify-otp",
+            params: { email: registrationData.email },
+          });
+          console.log("Navigation to verify-otp successful");
+        } catch (navigationError) {
+          console.error("Navigation error:", navigationError);
+          Alert.alert(
+            t("register.registration_error"),
+            "Registration successful but navigation failed. Please try logging in.",
+            [{ text: t("register.ok") }]
+          );
+        }
+        return;
+      }
+
+      console.log("Registration failed with result:", result);
       setTermsVisible(false);
 
-      if (result.errors?.email || result.errors?.phone_number) {
+      // Handle failed registration with validation errors
+      if (result.errors) {
+        console.log(
+          "Registration failed with validation errors:",
+          result.errors
+        );
         form.setValidationErrorsWithAPI(result.errors);
         setRegistrationData(null);
-        form.goToStep(1);
+
+        // Go back to step 1 if there are email or phone errors
+        if (result.errors.email || result.errors.phone_number) {
+          form.goToStep(1);
+        }
+
+        // Show appropriate error message
+        if (result.errors.email) {
+          const emailError = result.errors.email[0];
+          const isEmailTaken =
+            emailError.toLowerCase().includes("already been taken") ||
+            emailError.toLowerCase().includes("already exists");
+
+          if (isEmailTaken) {
+            Alert.alert(
+              t("register.registration_error"),
+              "This email is already registered. Would you like to go to the login page?",
+              [
+                { text: "Cancel", style: "cancel" },
+                {
+                  text: "Go to Login",
+                  onPress: () => {
+                    router.push("/(auth)/login");
+                  },
+                },
+              ]
+            );
+          } else {
+            Alert.alert(t("register.registration_error"), emailError, [
+              { text: t("register.ok") },
+            ]);
+          }
+        } else if (result.errors.phone_number) {
+          Alert.alert(
+            t("register.registration_error"),
+            result.errors.phone_number[0],
+            [{ text: t("register.ok") }]
+          );
+        } else {
+          // Show first error message
+          const firstError = Object.values(result.errors)[0][0];
+          Alert.alert(t("register.registration_error"), firstError, [
+            { text: t("register.ok") },
+          ]);
+        }
+      } else if (result.message) {
+        // Handle other error messages
+        Alert.alert(t("register.registration_error"), result.message, [
+          { text: t("register.ok") },
+        ]);
       }
     } catch (error) {
-      handleValidationError(error);
+      console.error("Registration error:", error);
+      console.error("Error stack:", error.stack);
+
+      if (error.message === "Registration timeout") {
+        Alert.alert(
+          t("register.registration_error"),
+          "Registration is taking longer than expected. Please check your internet connection and try again.",
+          [{ text: t("register.ok") }]
+        );
+      } else {
+        handleValidationError(error);
+      }
     }
   };
 
@@ -143,64 +289,66 @@ export default function RegisterScreen() {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={registerStyles.container}
-      >
-        <LinearGradient
-          colors={["rgba(65, 105, 225, 0.1)", "rgba(212, 175, 55, 0.1)"]}
-          style={StyleSheet.absoluteFill}
-        />
-
-        <ScrollView
-          style={[registerStyles.scrollView, isRTL && styles.scrollViewRtl]}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={registerStyles.scrollContent}
+    <ErrorBoundary>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={registerStyles.container}
         >
-          <WelcomeMessage isRTL={isRTL} t={t} />
+          <LinearGradient
+            colors={["rgba(65, 105, 225, 0.1)", "rgba(212, 175, 55, 0.1)"]}
+            style={StyleSheet.absoluteFill}
+          />
 
-          <StepIndicator currentStep={form.step} isRTL={isRTL} />
+          <ScrollView
+            style={[registerStyles.scrollView, isRTL]}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={registerStyles.scrollContent}
+          >
+            <WelcomeMessage isRTL={isRTL} t={t} />
 
-          <RegisterForm
-            form={form}
-            loading={loading}
-            onNextStep={handleNextStep}
-            onPreviousStep={handlePreviousStep}
-            onSubmit={handleRegister}
+            <StepIndicator currentStep={form.step} isRTL={isRTL} />
+
+            <RegisterForm
+              form={form}
+              loading={loading}
+              onNextStep={handleNextStep}
+              onPreviousStep={handlePreviousStep}
+              onSubmit={handleRegister}
+              t={t}
+              isRTL={isRTL}
+            />
+
+            <TouchableOpacity
+              style={[
+                registerStyles.loginLink,
+                isRTL && { alignSelf: "flex-start" },
+              ]}
+              onPress={() => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                router.push("/(auth)/login");
+              }}
+            >
+              <Text
+                style={[
+                  registerStyles.loginLinkText,
+                  isRTL && { textAlign: "right" },
+                ]}
+              >
+                {t("register.already_member")}
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
+
+          <TermsModal
+            visible={termsVisible}
+            onAccept={handleAcceptTerms}
+            onDecline={handleDeclineTerms}
             t={t}
             isRTL={isRTL}
           />
-
-          <TouchableOpacity
-            style={[
-              registerStyles.loginLink,
-              isRTL && { alignSelf: "flex-start" },
-            ]}
-            onPress={() => {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-              router.push("/(auth)/login");
-            }}
-          >
-            <Text
-              style={[
-                registerStyles.loginLinkText,
-                isRTL && { textAlign: "right" },
-              ]}
-            >
-              {t("register.already_member")}
-            </Text>
-          </TouchableOpacity>
-        </ScrollView>
-
-        <TermsModal
-          visible={termsVisible}
-          onAccept={handleAcceptTerms}
-          onDecline={handleDeclineTerms}
-          t={t}
-          isRTL={isRTL}
-        />
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </ErrorBoundary>
   );
 }

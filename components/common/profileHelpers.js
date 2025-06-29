@@ -1,7 +1,12 @@
 export const isApiProfileComplete = (userData) => {
-  const profile = userData.data?.profile || userData.profile;
+  console.log("isApiProfileComplete called with userData:", userData);
+
+  // Try different ways to extract profile data
+  const profile = userData.data?.profile || userData.profile || userData;
+  console.log("Extracted profile data:", profile);
 
   if (!profile) {
+    console.log("No profile data found");
     return false;
   }
 
@@ -19,25 +24,39 @@ export const isApiProfileComplete = (userData) => {
     "financial_status",
   ];
 
-  const filledCount = criticalFields.filter(
-    (field) =>
-      profile[field] !== null &&
-      profile[field] !== undefined &&
-      profile[field] !== ""
-  ).length;
+  const filledCount = criticalFields.filter((field) => {
+    const value = profile[field];
+    const isFilled = value !== null && value !== undefined && value !== "";
+    console.log(`Field ${field}: ${value} (${isFilled ? "filled" : "empty"})`);
+    return isFilled;
+  }).length;
 
+  console.log(
+    `Filled critical fields: ${filledCount}/${criticalFields.length}`
+  );
+
+  // Check for photos - make it more flexible
   const hasPhotos =
     profile.photos &&
     Array.isArray(profile.photos) &&
     profile.photos.length > 0;
+  const hasAvatar = profile.avatar_url && profile.avatar_url !== "";
 
-  const isComplete = filledCount >= criticalFields.length * 0.8 && hasPhotos;
+  console.log(`Has photos: ${hasPhotos}, Has avatar: ${hasAvatar}`);
+
+  // Consider profile complete if 80% of critical fields are filled AND either has photos or avatar
+  const isComplete =
+    filledCount >= criticalFields.length * 0.8 && (hasPhotos || hasAvatar);
+
+  console.log(
+    `Profile completion result: ${isComplete} (${filledCount}/${criticalFields.length} fields filled)`
+  );
 
   return isComplete;
 };
 
 export const isProfileEmpty = (userData) => {
-  const profile = userData.data?.profile || userData.profile;
+  const profile = userData.data?.profile || userData.profile || userData;
 
   if (!profile) return true;
 
@@ -65,9 +84,10 @@ export const isProfileEmpty = (userData) => {
 };
 
 export const checkProfileCompletion = (userData) => {
-  const profile = userData.data?.profile || userData.profile;
+  const profile = userData.data?.profile || userData.profile || userData;
 
   if (!profile) {
+    console.log("No profile data found in checkProfileCompletion");
     return {
       isProfileComplete: false,
       missingFields: ["profile data missing"],
@@ -94,28 +114,37 @@ export const checkProfileCompletion = (userData) => {
   const missingFields = [];
 
   requiredFields.forEach((field) => {
-    if (
-      profile[field] === null ||
-      profile[field] === undefined ||
-      profile[field] === ""
-    ) {
+    const value = profile[field];
+    const isEmpty = value === null || value === undefined || value === "";
+    const isEmploymentZero = field === "employment_status" && value === 0;
+
+    if (isEmpty || isEmploymentZero) {
       missingFields.push(field);
-    } else if (field === "employment_status" && profile[field] === 0) {
-      missingFields.push(field);
+      console.log(`Missing field: ${field} (value: ${value})`);
+    } else {
+      console.log(`✓ Field ${field} is filled: ${value}`);
     }
   });
 
   requiredArrayFields.forEach((field) => {
-    if (
-      !profile[field] ||
-      !Array.isArray(profile[field]) ||
-      profile[field].length === 0
-    ) {
+    const value = profile[field];
+    const isEmpty = !value || !Array.isArray(value) || value.length === 0;
+
+    if (isEmpty) {
       missingFields.push(field);
+      console.log(
+        `Missing array field: ${field} (value: ${JSON.stringify(value)})`
+      );
+    } else {
+      console.log(`✓ Array field ${field} is filled: ${value.length} items`);
     }
   });
 
   const isProfileComplete = missingFields.length === 0;
+
+  console.log(
+    `Profile completion check result: ${isProfileComplete} (${missingFields.length} missing fields)`
+  );
 
   return {
     isProfileComplete,
