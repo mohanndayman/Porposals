@@ -7,12 +7,6 @@ const initialState = {
   success: false,
   reportReasons: [
     {
-      id: 1,
-      value: "harassment",
-      label_en: "Harassment",
-      label_ar: "تحرش",
-    },
-    {
       id: 2,
       value: "fake_profile",
       label_en: "Fake Profile",

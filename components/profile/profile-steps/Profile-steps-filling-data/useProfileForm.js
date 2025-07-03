@@ -119,7 +119,7 @@ export const useProfileForm = (
         country_of_residence_id: Number(data.country_of_residence_id) || null,
         city_id: Number(data.city_id) || null,
         origin_id: Number(data.origin_id) || null,
-
+        isFirstUpdate: true,
         height: Number(data.height) || null,
         weight: Number(data.weight) || null,
         eye_color_id: Number(data.eye_color_id) || null,
