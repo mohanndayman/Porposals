@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistReducer } from "redux-persist";
-import { profileService } from "../../services/profile.service";
+import { profileService } from "../../services/profileService";
 
 const profilePersistConfig = {
   key: "profileCompletion",

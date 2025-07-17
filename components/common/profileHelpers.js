@@ -1,12 +1,8 @@
 export const isApiProfileComplete = (userData) => {
-  console.log("isApiProfileComplete called with userData:", userData);
-
   // Try different ways to extract profile data
   const profile = userData.data?.profile || userData.profile || userData;
-  console.log("Extracted profile data:", profile);
 
   if (!profile) {
-    console.log("No profile data found");
     return false;
   }
 
@@ -27,13 +23,9 @@ export const isApiProfileComplete = (userData) => {
   const filledCount = criticalFields.filter((field) => {
     const value = profile[field];
     const isFilled = value !== null && value !== undefined && value !== "";
-    console.log(`Field ${field}: ${value} (${isFilled ? "filled" : "empty"})`);
     return isFilled;
   }).length;
 
-  console.log(
-    `Filled critical fields: ${filledCount}/${criticalFields.length}`
-  );
 
   // Check for photos - make it more flexible
   const hasPhotos =
@@ -42,15 +34,11 @@ export const isApiProfileComplete = (userData) => {
     profile.photos.length > 0;
   const hasAvatar = profile.avatar_url && profile.avatar_url !== "";
 
-  console.log(`Has photos: ${hasPhotos}, Has avatar: ${hasAvatar}`);
 
   // Consider profile complete if 80% of critical fields are filled AND either has photos or avatar
   const isComplete =
     filledCount >= criticalFields.length * 0.8 && (hasPhotos || hasAvatar);
 
-  console.log(
-    `Profile completion result: ${isComplete} (${filledCount}/${criticalFields.length} fields filled)`
-  );
 
   return isComplete;
 };
@@ -87,7 +75,6 @@ export const checkProfileCompletion = (userData) => {
   const profile = userData.data?.profile || userData.profile || userData;
 
   if (!profile) {
-    console.log("No profile data found in checkProfileCompletion");
     return {
       isProfileComplete: false,
       missingFields: ["profile data missing"],
@@ -120,9 +107,6 @@ export const checkProfileCompletion = (userData) => {
 
     if (isEmpty || isEmploymentZero) {
       missingFields.push(field);
-      console.log(`Missing field: ${field} (value: ${value})`);
-    } else {
-      console.log(`✓ Field ${field} is filled: ${value}`);
     }
   });
 
@@ -132,19 +116,11 @@ export const checkProfileCompletion = (userData) => {
 
     if (isEmpty) {
       missingFields.push(field);
-      console.log(
-        `Missing array field: ${field} (value: ${JSON.stringify(value)})`
-      );
-    } else {
-      console.log(`✓ Array field ${field} is filled: ${value.length} items`);
     }
   });
 
   const isProfileComplete = missingFields.length === 0;
 
-  console.log(
-    `Profile completion check result: ${isProfileComplete} (${missingFields.length} missing fields)`
-  );
 
   return {
     isProfileComplete,

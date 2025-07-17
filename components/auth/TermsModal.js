@@ -170,7 +170,6 @@ export const TermsModal = ({
 
   const handleAccept = async () => {
     try {
-      console.log("Terms accepted, starting registration process...");
       setIsLoading(true);
 
       Animated.timing(fadeAnim, {
@@ -185,7 +184,6 @@ export const TermsModal = ({
       }
 
       await onAccept();
-      console.log("Registration process completed successfully");
 
       setIsLoading(false);
       fadeAnim.setValue(0);

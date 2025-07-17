@@ -1,7 +1,7 @@
 import api from "./api";
 import { ENDPOINTS } from "../constants/endpoints";
 
-export const userProfileService = {
+export const userInteractionService = {
   getUserProfile: async (userId) => {
     try {
       const response = await api.get(

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { showMessage } from "react-native-flash-message";
-import { userProfileService } from "../../services/userProfileService";
+import { userInteractionService } from "../../services/userInteractionService";
 
 const handleApiError = (error, defaultMessage) => {
   const errorMessage =
@@ -25,7 +25,7 @@ export const fetchUserProfile = createAsyncThunk(
   "userProfile/fetchUserProfile",
   async (userId, { rejectWithValue }) => {
     try {
-      const response = await userProfileService.getUserProfile(userId);
+      const response = await userInteractionService.getUserProfile(userId);
       return response;
     } catch (error) {
       return rejectWithValue(
@@ -39,7 +39,7 @@ export const likeUser = createAsyncThunk(
   "userProfile/likeUser",
   async (userId, { rejectWithValue }) => {
     try {
-      const response = await userProfileService.likeUser(userId);
+      const response = await userInteractionService.likeUser(userId);
       showSuccessMessage("User liked successfully");
       return { response, userId };
     } catch (error) {
@@ -52,7 +52,7 @@ export const dislikeUser = createAsyncThunk(
   "userProfile/dislikeUser",
   async (userId, { rejectWithValue }) => {
     try {
-      const response = await userProfileService.dislikeUser(userId);
+      const response = await userInteractionService.dislikeUser(userId);
       showMessage({
         message: "User disliked",
         type: "info",

@@ -27,7 +27,7 @@ import { FadeInDown } from "react-native-reanimated";
 import styles from "../../styles/seeMyprofile";
 import { fetchUserProfile } from "../../store/slices/userProfileSlice";
 import ScrollableHeaderContent from "../../components/profile/seeMyProfile/ScrollableHeaderContent";
-import ImageCarousel from "../../components/profile/seeMyProfile/ImageCarousel";
+import ImageCarousel from "../../components/common/ImageCarousel";
 import InfoCard from "../../components/profile/seeMyProfile/InfoCard";
 import StatItem from "../../components/profile/seeMyProfile/StatItem";
 import StatsGrid from "../../components/profile/seeMyProfile/StatsGrid";

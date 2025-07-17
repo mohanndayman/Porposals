@@ -172,10 +172,12 @@ const EducationSection = ({
         <ModernDropdown
           label={t ? t("search.education.job_title") : "Job Title"}
           value={preferences.preferred_job_title_id}
-          items={(professionalEducational.jobTitles || []).map((item) => ({
-            label: item.name,
-            value: item.id,
-          }))}
+          items={(professionalEducational.jobTitles || [])
+            .sort((a, b) => a.name.localeCompare(b.name)) // Sort A–Z by name
+            .map((item) => ({
+              label: item.name,
+              value: item.id,
+            }))}
           onValueChange={(value) => onChange("preferred_job_title_id", value)}
           placeholder={
             t

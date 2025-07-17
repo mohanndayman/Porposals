@@ -643,14 +643,14 @@ const MatchesScreen = () => {
             />
             <FilterChip
               label={t("matches.filters.liked")}
-              icon="heart"
+              icon="check"
               active={activeFilter === "Liked"}
               onPress={() => handleFilterChange("Liked")}
               styles={styles}
             />
             <FilterChip
               label={t("matches.filters.matches")}
-              icon="check"
+              icon="heart"
               active={activeFilter === "Matches"}
               onPress={() => handleFilterChange("Matches")}
               styles={styles}

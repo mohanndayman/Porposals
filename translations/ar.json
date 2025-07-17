@@ -14,7 +14,52 @@
     "email_invalid": "يرجى إدخال عنوان بريد إلكتروني صالح",
     "password_required": "كلمة المرور مطلوبة",
     "password_min_length": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
-    "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صالحة",
+    "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صالحة"
+  },
+  "auth": {
+    "face_id_enable": "هل تريد تفعيل Face ID لتسجيل الدخول السريع في المرة القادمة؟",
+    "face_id_success": "تم تفعيل Face ID لتسجيلات الدخول المستقبلية",
+    "face_id_error": "فشل تفعيل Face ID. يرجى المحاولة مرة أخرى لاحقاً.",
+    "biometric_error": "فشل مصادقة Face ID. يرجى المحاولة مرة أخرى أو استخدام كلمة المرور.",
+    "welcome_title": "مرحباً بعودتك",
+    "welcome_subtitle": "مستعد لمتابعة رحلتك نحو الحب؟",
+    "email": "البريد الإلكتروني",
+    "email_placeholder": "أدخل بريدك الإلكتروني",
+    "password": "كلمة المرور",
+    "password_placeholder": "أدخل كلمة المرور",
+    "continue_journey": "متابعة الرحلة",
+    "sign_in_with_face_id": "تسجيل الدخول بـ Face ID"
+  },
+  "common": {
+    "yes": "نعم",
+    "no": "لا",
+    "ok": "موافق",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "loading": "جاري التحميل...",
+    "success": "نجح",
+    "error": "خطأ",
+    "try_again": "حاول مرة أخرى",
+    "continue": "متابعة",
+    "clear": "مسح",
+    "required": "مطلوب"
+  },
+  "error": {
+    "something_went_wrong": "حدث خطأ ما",
+    "unexpected_error_message": "واجه التطبيق خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+    "network_error": "خطأ في الشبكة. يرجى التحقق من الاتصال.",
+    "generic_error": "حدث خطأ. يرجى المحاولة مرة أخرى."
+  },
+  "photo": {
+    "permission_required": "الصلاحية مطلوبة",
+    "permission_message": "يرجى منح الإذن للوصول إلى مكتبة الصور لرفع الصور.",
+    "pick_error": "فشل اختيار الصورة. يرجى المحاولة مرة أخرى.",
+    "update_success_title": "تم تحديث الصورة",
+    "update_success_message": "تم تحديث صورة الملف الشخصي بنجاح.",
+    "update_failed_title": "فشل التحديث",
+    "update_failed_message": "غير قادر على تحديث الصورة. يرجى المحاولة مرة أخرى."
+  },
+  "validation": {
     "firstName": {
       "required": "الاسم الأول مطلوب",
       "minLength": "يجب أن يكون الاسم الأول مكونًا من حرفين على الأقل",
@@ -293,6 +338,26 @@
     "error": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
   },
   "match_profile": {
+    "personal_details": "التفاصيل الشخصية",
+    "religious_lifestyle": "الدين ونمط الحياة",
+    "financial_living": "المالية والمعيشة",
+    "family_contact": "تواصل العائلة",
+    "nationality": "الجنسية",
+    "origin": "الأصل",
+    "language": "اللغة",
+    "area": "المنطقة",
+    "skin_color": "لون البشرة",
+    "hair_color": "لون الشعر",
+    "eye_color": "لون العيون",
+    "hijab_status": "الحجاب",
+    "religion_level": "مستوى التدين",
+    "religiosity_level": "مستوى التقوى",
+    "smoking_tools": "أدوات التدخين",
+    "social_media": "وسائل التواصل الاجتماعي",
+    "financial_status": "الوضع المالي",
+    "housing_status": "وضع السكن",
+    "car_ownership": "ملكية السيارة",
+    "marriage_budget": "ميزانية الزواج",
     "report": "إبلاغ"
   },
   "register": {

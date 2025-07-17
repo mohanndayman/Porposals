@@ -57,7 +57,30 @@ const i18n = new I18n({
   },
 });
 
-i18n.locale = Localization.locale;
+// FIX: Safely set the locale with proper validation
+try {
+  let deviceLocale = "en"; // Default fallback
+
+  // Check if Localization.locale exists and is a string
+  if (Localization.locale && typeof Localization.locale === "string") {
+    deviceLocale = Localization.locale.split("-")[0];
+  } else if (
+    Localization.locales &&
+    Array.isArray(Localization.locales) &&
+    Localization.locales.length > 0
+  ) {
+    // Fallback to first locale in locales array
+    deviceLocale = Localization.locales[0].split("-")[0];
+  }
+
+  // Only set supported locales
+  const supportedLocales = ["en", "ar"];
+  i18n.locale = supportedLocales.includes(deviceLocale) ? deviceLocale : "en";
+} catch (error) {
+  console.warn("Error setting i18n locale, using default 'en':", error);
+  i18n.locale = "en";
+}
+
 i18n.enableFallback = true;
 
 export default i18n;

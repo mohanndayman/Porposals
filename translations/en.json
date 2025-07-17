@@ -6,6 +6,20 @@
     "password_min_length": "Password must be at least 6 characters long",
     "invalid_credentials": "Invalid email or password"
   },
+  "auth": {
+    "face_id_enable": "Would you like to enable Face ID for quick login next time?",
+    "face_id_success": "Face ID has been enabled for future logins",
+    "face_id_error": "Failed to enable Face ID. Please try again later.",
+    "biometric_error": "Face ID authentication failed. Please try again or use your password.",
+    "welcome_title": "Welcome Back",
+    "welcome_subtitle": "Ready to continue your journey to love?",
+    "email": "Email",
+    "email_placeholder": "Enter your email",
+    "password": "Password",
+    "password_placeholder": "Enter your password",
+    "continue_journey": "Continue Journey",
+    "sign_in_with_face_id": "Sign in with Face ID"
+  },
   "language": {
     "change_title": "Change Language",
     "change_message": "Are you sure you want to change the language from {current} to {new}?",
@@ -125,8 +139,8 @@
       }
     },
     "progress": {
-      "match": "Match",
-      "perfectMatch": "Perfect Match!",
+      "match": "Selection",
+      "perfectMatch": "Perfect Selection!",
       "youHaveSelected": "You have selected",
       "filters": "filters",
       "maxFiltersMessage": "Maximum filters selected! You'll get the most accurate matches."
@@ -399,7 +413,28 @@
     "required": "Required",
     "clear": "Clear",
     "save": "Save",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "try_again": "Try Again",
+    "continue": "Continue"
+  },
+
+  "error": {
+    "something_went_wrong": "Something went wrong",
+    "unexpected_error_message": "The app encountered an unexpected error. Please try again.",
+    "network_error": "Network error. Please check your connection.",
+    "generic_error": "An error occurred. Please try again."
+  },
+
+  "photo": {
+    "permission_required": "Permission Required",
+    "permission_message": "Please grant access to your photo library to upload photos.",
+    "pick_error": "Failed to pick image. Please try again.",
+    "update_success_title": "Photo Updated",
+    "update_success_message": "Your profile photo has been successfully updated.",
+    "update_failed_title": "Update Failed",
+    "update_failed_message": "Unable to update photo. Please try again."
   },
 
   "status": {
@@ -441,6 +476,23 @@
     "language_changed_restart": "Language changed successfully. The app will restart to apply changes.",
     "language_change_error": "Failed to change language. Please try again.",
     "language_changed": "Language changed successfully",
+    "location_not_provided": "Location not provided",
+    "no_bio_provided": "No bio provided",
+    "children_count": "{count} children",
+    "employed": "Employed",
+    "unemployed": "Unemployed",
+    "like_success_message": "You liked {name}!",
+    "like_error_message": "There was a problem liking this profile",
+    "dislike_error_message": "There was a problem disliking this profile",
+    "update_success_title": "🎉 Success!",
+    "update_success_message": "Your profile has been updated successfully!",
+    "validation_error_title": "🚨 Validation Error",
+    "validation_error_message": "Please fix the following issues:",
+    "update_error_title": "❌ Error",
+    "update_error_message": "Failed to update profile. Please check your connection and try again.",
+    "required_fields_error": "Please fill in all required fields correctly",
+    "age_requirement_error": "You must be at least 18 years old",
+    "hijab_required_error": "Hijab status is required for female users",
 
     "language": "Language",
     "subscription": "Subscription",
@@ -917,6 +969,27 @@
     "match": "Match"
   },
   "match_profile": {
+    "personal_details": "Personal Details",
+    "religious_lifestyle": "Religious & Lifestyle",
+    "financial_living": "Financial & Living",
+    "family_contact": "Family Contact",
+
+    "nationality": "Nationality",
+    "origin": "Origin",
+    "language": "Language",
+    "area": "Area",
+    "skin_color": "Skin Color",
+    "hair_color": "Hair Color",
+    "eye_color": "Eye Color",
+    "hijab_status": "Hijab",
+    "religion_level": "Religion Level",
+    "religiosity_level": "Religiosity Level",
+    "smoking_tools": "Smoking Tools",
+    "social_media": "Social Media",
+    "financial_status": "Financial Status",
+    "housing_status": "Housing Status",
+    "car_ownership": "Car Ownership",
+    "marriage_budget": "Marriage Budget",
     "phone": "Phone Number",
     "reveal_contact": "Reaveal Contact",
     "email": "Email",
@@ -989,7 +1062,7 @@
       "reset": "Reset Filters"
     },
     "sections": {
-      "preference_matches": "Preference Matches",
+      "preference_matches": "Exact matches",
       "suggested_matches": "Suggested Matches",
       "profiles_liked": "Profiles You Liked",
       "more_profiles_liked": "More Profiles You Liked",
@@ -1005,7 +1078,7 @@
     },
     "empty_states": {
       "preferences": {
-        "title": "No Preference Matches",
+        "title": "No Exact matches",
         "description": "We couldn't find exact matches for your preferences. Try adjusting your search criteria."
       },
       "suggested": {

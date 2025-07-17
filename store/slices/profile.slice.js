@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { profileService } from "../../services/profile.service";
+import { profileService } from "../../services/profileService";
 import { calculateProfileProgress } from "../../utils/profileProgress";
 
 const createThunkWithErrorHandling = (type, asyncFunction) =>

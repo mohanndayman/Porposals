@@ -97,7 +97,32 @@ export const LanguageProvider = ({ children }) => {
             I18nManager.forceRTL(shouldBeRTL);
           }
         } else {
-          const deviceLocale = Localization.locale.split("-")[0];
+          // FIX: Add null/undefined checks for Localization.locale
+          let deviceLocale = "en"; // Default fallback
+
+          try {
+            // Check if Localization.locale exists and is a string
+            if (
+              Localization.locale &&
+              typeof Localization.locale === "string"
+            ) {
+              deviceLocale = Localization.locale.split("-")[0];
+            } else if (
+              Localization.locales &&
+              Array.isArray(Localization.locales) &&
+              Localization.locales.length > 0
+            ) {
+              // Fallback to first locale in locales array
+              deviceLocale = Localization.locales[0].split("-")[0];
+            }
+          } catch (localeError) {
+            console.warn(
+              "Error getting device locale, using default 'en':",
+              localeError
+            );
+            deviceLocale = "en";
+          }
+
           const initialLocale = ["en", "ar"].includes(deviceLocale)
             ? deviceLocale
             : "en";
@@ -116,6 +141,9 @@ export const LanguageProvider = ({ children }) => {
         setIsReady(true);
       } catch (error) {
         console.error("Failed to load language settings:", error);
+        // FIX: Ensure we still set a default locale even if everything fails
+        setLocale("en");
+        setIsRTL(false);
         setIsReady(true);
       }
     };
@@ -124,16 +152,22 @@ export const LanguageProvider = ({ children }) => {
   }, []);
 
   // Replace the changeLanguage function with this improved version:
-  const changeLanguage = async (lang) => {
+  const changeLanguage = async (newLocale) => {
     try {
-      if (lang !== locale) {
-        const shouldBeRTL = lang === "ar";
+      // FIX: Add validation for newLocale parameter
+      if (!newLocale || typeof newLocale !== "string") {
+        console.error("Invalid locale provided to changeLanguage:", newLocale);
+        return;
+      }
+
+      if (newLocale !== locale) {
+        const shouldBeRTL = newLocale === "ar";
 
         // Save the language preference first
-        await AsyncStorage.setItem("userLanguage", lang);
+        await AsyncStorage.setItem("userLanguage", newLocale);
 
         // Update the locale state immediately
-        setLocale(lang);
+        setLocale(newLocale);
         setIsRTL(shouldBeRTL);
 
         // Check if RTL settings need to change
@@ -168,12 +202,19 @@ export const LanguageProvider = ({ children }) => {
       console.error("Failed to save language setting:", error);
     }
   };
+
   // Set up i18n configuration
   i18n.locale = locale;
   i18n.enableFallback = true;
 
   // Custom translate function using safe translation
   const t = (key, options) => {
+    // FIX: Add validation for key parameter
+    if (!key || typeof key !== "string") {
+      console.warn("Invalid translation key:", key);
+      return String(key) || "";
+    }
+
     // Use safeTranslate to handle complex translation objects
     const translations = locale === "ar" ? ar : en;
 

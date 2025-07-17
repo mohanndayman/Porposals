@@ -58,14 +58,10 @@ export const authService = {
 
   register: async (userData) => {
     try {
-      console.log("Making registration API call with data:", userData);
       const response = await api.post(ENDPOINTS.REGISTER, userData);
-      console.log("Registration API response:", response.data);
       return response.data;
     } catch (error) {
       console.error("Registration service error:", error);
-      console.error("Error response:", error.response?.data);
-      console.error("Error status:", error.response?.status);
 
       // Re-throw the error with more context
       throw error;

@@ -17,7 +17,7 @@ import { COLORS } from "../../constants/colors";
 import createMatchProfileStyles from "../../styles/matchProfileStyle";
 import { useProfileActions } from "../../components/profile/matchProfileScreen/useProfileActions";
 import { useProfileData } from "../../components/profile/matchProfileScreen/useProfileData";
-import ImageCarousel from "../../components/profile/matchProfileScreen/ImageCarousel";
+import ImageCarousel from "../../components/common/ImageCarousel";
 import InfoCard from "../../components/profile/matchProfileScreen/InfoCard";
 import LikeConfirmationModal from "../../components/profile/matchProfileScreen/LikeConfirmationModal";
 import DislikeConfirmationBanner from "../../components/profile/matchProfileScreen/DislikeConfirmationBanner";
@@ -26,7 +26,7 @@ import StatItem from "../../components/profile/matchProfileScreen/StatItem";
 import ContactInfo from "../../components/profile/matchProfileScreen/ContactInfo";
 import ProfileActions from "../../components/profile/matchProfileScreen/ProfileActions";
 import MatchBanner from "../../components/profile/matchProfileScreen/MatchBanner";
-import LoadingSpinner from "../../components/profile/matchProfileScreen/LoadingSpinner";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 import ReportSection from "../../components/profile/matchProfileScreen/ReportSection";
 import { useSelector, useDispatch } from "react-redux";
 import { matchesService } from "../../services/matchesService";
@@ -458,6 +458,152 @@ const MatchProfileScreen = () => {
                     label={t("match_profile.stats.pets")}
                     value={profile.pets.join(", ")}
                     icon="github"
+                  />
+                )}
+              </View>
+            </InfoCard>
+
+            {/* Additional Personal Details */}
+            <InfoCard title={t("match_profile.personal_details")} icon="user">
+              <View style={createStyles(isRTL).statsGrid}>
+                {profile.nationality && (
+                  <StatItem
+                    label={t("match_profile.nationality")}
+                    value={profile.nationality}
+                    icon="flag"
+                  />
+                )}
+
+                {profile.origin && (
+                  <StatItem
+                    label={t("match_profile.origin")}
+                    value={profile.origin}
+                    icon="map-pin"
+                  />
+                )}
+
+                {profile.language && (
+                  <StatItem
+                    label={t("match_profile.language")}
+                    value={profile.language}
+                    icon="message-circle"
+                  />
+                )}
+
+                {profile.city_location && (
+                  <StatItem
+                    label={t("match_profile.area")}
+                    value={profile.city_location}
+                    icon="navigation"
+                  />
+                )}
+
+                {profile.skin_color && (
+                  <StatItem
+                    label={t("match_profile.skin_color")}
+                    value={profile.skin_color}
+                    icon="circle"
+                  />
+                )}
+
+                {profile.hair_color && (
+                  <StatItem
+                    label={t("match_profile.hair_color")}
+                    value={profile.hair_color}
+                    icon="user"
+                  />
+                )}
+
+                {profile.eye_color && (
+                  <StatItem
+                    label={t("match_profile.eye_color")}
+                    value={profile.eye_color}
+                    icon="eye"
+                  />
+                )}
+
+                {profile.hijab_status !== null && (
+                  <StatItem
+                    label={t("match_profile.hijab_status")}
+                    value={profile.hijab_status ? "Yes" : "No"}
+                    icon="user"
+                  />
+                )}
+              </View>
+            </InfoCard>
+
+            {/* Religious & Lifestyle Details */}
+            <InfoCard
+              title={t("match_profile.religious_lifestyle")}
+              icon="heart"
+            >
+              <View style={createStyles(isRTL).statsGrid}>
+                {profile.religion_level && (
+                  <StatItem
+                    label={t("match_profile.religion_level")}
+                    value={profile.religion_level}
+                    icon="heart"
+                  />
+                )}
+
+                {profile.religiosity_level && (
+                  <StatItem
+                    label={t("match_profile.religiosity_level")}
+                    value={profile.religiosity_level}
+                    icon="star"
+                  />
+                )}
+
+                {profile.smoking_tools && profile.smoking_tools.length > 0 && (
+                  <StatItem
+                    label={t("match_profile.smoking_tools")}
+                    value={profile.smoking_tools.join(", ")}
+                    icon="minus-circle"
+                  />
+                )}
+
+                {profile.social_media_presence && (
+                  <StatItem
+                    label={t("match_profile.social_media")}
+                    value={profile.social_media_presence}
+                    icon="smartphone"
+                  />
+                )}
+              </View>
+            </InfoCard>
+
+            {/* Financial & Living Situation */}
+            <InfoCard title={t("match_profile.financial_living")} icon="home">
+              <View style={createStyles(isRTL).statsGrid}>
+                {profile.financial_status && (
+                  <StatItem
+                    label={t("match_profile.financial_status")}
+                    value={profile.financial_status}
+                    icon="dollar-sign"
+                  />
+                )}
+
+                {profile.housing_status && (
+                  <StatItem
+                    label={t("match_profile.housing_status")}
+                    value={profile.housing_status}
+                    icon="home"
+                  />
+                )}
+
+                {profile.car_ownership !== null && (
+                  <StatItem
+                    label={t("match_profile.car_ownership")}
+                    value={profile.car_ownership === 1 ? "Yes" : "No"}
+                    icon="truck"
+                  />
+                )}
+
+                {profile.marriage_budget && (
+                  <StatItem
+                    label={t("match_profile.marriage_budget")}
+                    value={profile.marriage_budget}
+                    icon="dollar-sign"
                   />
                 )}
               </View>

@@ -23,35 +23,26 @@ const wrappedScreen = (WrappedComponent, ProfileCompletionScreen = null) => {
 
     const isProfileComplete = () => {
       if (!data) {
-        console.log("No profile data available in wrappedScreen");
         return false;
       }
 
-      console.log("Checking profile completion in wrappedScreen...");
-
       const apiComplete = isApiProfileComplete(data);
-      console.log("apiComplete result:", apiComplete);
 
       const serverProfileIsEmpty = isProfileEmpty(data);
-      console.log("serverProfileIsEmpty result:", serverProfileIsEmpty);
 
       const { isProfileComplete: completeCheck } = checkProfileCompletion(data);
-      console.log("completeCheck result:", completeCheck);
 
       const profileComplete =
         apiComplete ||
         completeCheck ||
         (!serverProfileIsEmpty && completeCheck);
 
-      console.log("Final profileComplete result:", profileComplete);
-      console.log(
-        "Breakdown: apiComplete=",
+      "Breakdown: apiComplete=",
         apiComplete,
         "completeCheck=",
         completeCheck,
         "!serverProfileIsEmpty=",
-        !serverProfileIsEmpty
-      );
+        !serverProfileIsEmpty;
 
       return profileComplete;
     };

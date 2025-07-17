@@ -10,8 +10,8 @@ const FilterProgressTracker = ({
   isRTL,
   // Add internationalization props
   labels = {
-    match: "Match",
-    perfectMatch: "Perfect Match!",
+    match: "Selection",
+    perfectMatch: "Perfect Selection!",
     youHaveSelected: "You have selected",
     filters: "filters",
     maxFiltersMessage:

@@ -86,8 +86,6 @@ const FIELD_MAPPING = {
 
 // Strict validation for field completion
 const isFieldComplete = (key, value, combinedData) => {
-  console.log(`Checking field ${key} with value:`, value);
-
   // Special handling for specific fields
   switch (key) {
     case "employment_status":
@@ -173,11 +171,8 @@ const isFieldComplete = (key, value, combinedData) => {
 };
 
 export const calculateProfileProgress = (userData, savedProgress = null) => {
-  console.log("calculateProfileProgress called with userData:", userData);
-
   // If no user data, return base progress
   if (!userData) {
-    console.log("No user data provided, returning 0 progress");
     return {
       progress: 0,
       stepProgress: Object.keys(STEP_FIELDS).reduce((acc, step) => {
@@ -206,8 +201,6 @@ export const calculateProfileProgress = (userData, savedProgress = null) => {
     ...(savedProgress?.formData || {}),
   };
 
-  console.log("Combined data for validation:", combinedData);
-
   const stepProgress = {};
   const missingFields = [];
   let totalCompleted = 0;
@@ -225,20 +218,16 @@ export const calculateProfileProgress = (userData, savedProgress = null) => {
         combinedData[key] ||
         (FIELD_MAPPING[key] ? combinedData[FIELD_MAPPING[key]] : null);
 
-      console.log(`Step ${step}, Field ${key}:`, fieldValue);
-
       const isCompleted = isFieldComplete(key, fieldValue, combinedData);
 
       if (isCompleted) {
         completedInStep++;
         totalCompleted++;
-        console.log(`✓ Field ${key} is complete`);
       } else {
         stepMissingFields.push({
           label,
           step: Number(step),
         });
-        console.log(`✗ Field ${key} is incomplete`);
       }
     });
 
@@ -246,7 +235,6 @@ export const calculateProfileProgress = (userData, savedProgress = null) => {
     if (step === "1" && completedInStep === 0 && combinedData.bio) {
       completedInStep = 1;
       totalCompleted++;
-      console.log("Added bonus completion for bio field");
     }
 
     stepProgress[step] = {
@@ -265,10 +253,7 @@ export const calculateProfileProgress = (userData, savedProgress = null) => {
     combinedData.language ? 10 : 0
   );
 
-  console.log(
-    `Final progress calculation: ${totalCompleted}/${totalFields} = ${calculatedProgress}%`
-  );
-  console.log("Missing fields:", missingFields);
+  `Final progress calculation: ${totalCompleted}/${totalFields} = ${calculatedProgress}%`;
 
   return {
     progress: calculatedProgress,

@@ -46,7 +46,6 @@ export default function RegisterScreen() {
   const { locale, isRTL, changeLanguage, t } = useContext(LanguageContext);
 
   const handleValidationError = (error) => {
-    console.log("Handling validation error:", error);
     setTermsVisible(false);
 
     if (error.errors) {
@@ -55,7 +54,6 @@ export default function RegisterScreen() {
         validationErrors[field] = messages[0];
       });
 
-      console.log("Setting validation errors:", validationErrors);
       form.setValidationErrorsWithAPI(validationErrors);
 
       // Handle specific validation errors
@@ -120,9 +118,6 @@ export default function RegisterScreen() {
 
   const handleAcceptTerms = async () => {
     try {
-      console.log("Starting registration process...");
-      console.log("Registration data:", registrationData);
-
       // Validate registration data before proceeding
       if (!registrationData || !registrationData.email) {
         console.error(
@@ -147,51 +142,19 @@ export default function RegisterScreen() {
       const registrationPromise = dispatch(register(registrationData)).unwrap();
 
       const result = await Promise.race([registrationPromise, timeoutPromise]);
-      console.log("Registration result:", result);
 
-      if (result.success) {
-        console.log(
-          "Registration successful, navigating to OTP verification..."
-        );
-        setTermsVisible(false);
-        setRegistrationData(null);
-
-        // Wrap navigation in try-catch to prevent crashes
-        try {
-          await router.push({
-            pathname: "/(auth)/verify-otp",
-            params: { email: registrationData.email },
-          });
-          console.log("Navigation to verify-otp successful");
-        } catch (navigationError) {
-          console.error("Navigation error:", navigationError);
-          Alert.alert(
-            t("register.registration_error"),
-            "Registration successful but navigation failed. Please try logging in.",
-            [{ text: t("register.ok") }]
-          );
-        }
-        return;
-      }
-
-      console.log("Registration failed with result:", result);
-      setTermsVisible(false);
-
-      // Handle failed registration with validation errors
       if (result.errors) {
-        console.log(
+        console.error(
           "Registration failed with validation errors:",
           result.errors
         );
         form.setValidationErrorsWithAPI(result.errors);
         setRegistrationData(null);
 
-        // Go back to step 1 if there are email or phone errors
         if (result.errors.email || result.errors.phone_number) {
           form.goToStep(1);
         }
 
-        // Show appropriate error message
         if (result.errors.email) {
           const emailError = result.errors.email[0];
           const isEmailTaken =
@@ -201,14 +164,12 @@ export default function RegisterScreen() {
           if (isEmailTaken) {
             Alert.alert(
               t("register.registration_error"),
-              "This email is already registered. Would you like to go to the login page?",
+              t("register.email_already_registered"),
               [
-                { text: "Cancel", style: "cancel" },
+                { text: t("register.cancel"), style: "cancel" },
                 {
-                  text: "Go to Login",
-                  onPress: () => {
-                    router.push("/(auth)/login");
-                  },
+                  text: t("register.go_to_login"),
+                  onPress: () => router.push("/(auth)/login"),
                 },
               ]
             );
@@ -224,14 +185,17 @@ export default function RegisterScreen() {
             [{ text: t("register.ok") }]
           );
         } else {
-          // Show first error message
-          const firstError = Object.values(result.errors)[0][0];
+          const errorValues = Object.values(result.errors);
+          const firstError =
+            Array.isArray(errorValues[0]) && errorValues[0].length > 0
+              ? errorValues[0][0]
+              : t("register.unknown_error");
+
           Alert.alert(t("register.registration_error"), firstError, [
             { text: t("register.ok") },
           ]);
         }
       } else if (result.message) {
-        // Handle other error messages
         Alert.alert(t("register.registration_error"), result.message, [
           { text: t("register.ok") },
         ]);

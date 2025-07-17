@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import COLORS from "../constants/colors";
 import { Platform, Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
+import { StatusBar } from "react-native";
 const HEADER_HEIGHT = Platform.OS === "ios" ? 520 : 280;
 export default StyleSheet.create({
   container: {

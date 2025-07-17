@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback, useMemo, memo } from "react";
 import {
   View,
   Text,
@@ -31,13 +31,28 @@ import {
 import { showMessage } from "react-native-flash-message";
 import { useContext } from "react";
 import { LanguageContext } from "../../contexts/LanguageContext";
+
 const { width, height } = Dimensions.get("window");
 const CARD_WIDTH = width * 0.85;
 const CARD_HEIGHT = height * 0.18;
 const HEADER_HEIGHT = Platform.OS === "ios" ? 90 : 70;
 
 const LikedMeScreen = () => {
-  const rtlStyles = {
+  const { isRTL } = useContext(LanguageContext);
+  const [likes, setLikes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState("en");
+  const [showLikeModal, setShowLikeModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [likeLoading, setLikeLoading] = useState(false);
+
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const rtlStyles = useMemo(() => ({
     headerContent: {
       alignItems: isRTL ? "flex-end" : "flex-start",
       width: "100%",
@@ -79,20 +94,7 @@ const LikedMeScreen = () => {
     textAlign: {
       textAlign: isRTL ? "right" : "left",
     },
-  };
-  const { isRTL } = useContext(LanguageContext);
-  const [likes, setLikes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [refreshing, setRefreshing] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState("en");
-  const [showLikeModal, setShowLikeModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [likeLoading, setLikeLoading] = useState(false);
-
-  const scrollY = useRef(new Animated.Value(0)).current;
-  const router = useRouter();
-  const dispatch = useDispatch();
+  }), [isRTL]);
 
   useEffect(() => {
     const loadLanguage = async () => {
@@ -106,7 +108,7 @@ const LikedMeScreen = () => {
     loadLanguage();
   }, []);
 
-  const fetchLikesData = async () => {
+  const fetchLikesData = useCallback(async () => {
     try {
       setError(null);
       const likesData = await matchesService.getLikes();
@@ -123,51 +125,51 @@ const LikedMeScreen = () => {
       setLoading(false);
       setRefreshing(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchLikesData();
-  }, []);
+  }, [fetchLikesData]);
 
-  const onRefresh = async () => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
     await fetchLikesData();
-  };
+  }, [fetchLikesData]);
 
-  const headerOpacity = scrollY.interpolate({
+  const headerOpacity = useMemo(() => scrollY.interpolate({
     inputRange: [0, 50],
     outputRange: [1, 0.9],
     extrapolate: "clamp",
-  });
+  }), [scrollY]);
 
-  const headerTranslate = scrollY.interpolate({
+  const headerTranslate = useMemo(() => scrollY.interpolate({
     inputRange: [0, 100],
     outputRange: [0, -10],
     extrapolate: "clamp",
-  });
+  }), [scrollY]);
 
-  const handleCardPress = (user) => {
+  const handleCardPress = useCallback((user) => {
     if (!user || !user.id) return;
 
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     router.push({
       pathname: "/(profile)/matchProfile",
       params: {
-        userId: user.id,
+        userId: String(user.id), // FIX: Ensure userId is a string
         fromTab: "likes",
       },
     });
-  };
+  }, [router]);
 
-  const handleLikeBack = (user) => {
+  const handleLikeBack = useCallback((user) => {
     if (!user || !user.id) return;
 
     setSelectedUser(user);
     setShowLikeModal(true);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  };
+  }, []);
 
-  const handleLikeConfirm = async () => {
+  const handleLikeConfirm = useCallback(async () => {
     if (!selectedUser) {
       setShowLikeModal(false);
       return;
@@ -188,7 +190,7 @@ const LikedMeScreen = () => {
         router.push({
           pathname: "/(profile)/matchProfile",
           params: {
-            userId: user.id,
+            userId: String(selectedUser.id), // FIX: Ensure userId is a string
             fromTab: "matches",
           },
         });
@@ -200,7 +202,6 @@ const LikedMeScreen = () => {
         });
 
         dispatch(setActiveTab("Liked"));
-
         fetchLikesData();
       }
     } catch (error) {
@@ -218,9 +219,9 @@ const LikedMeScreen = () => {
       setLikeLoading(false);
       setSelectedUser(null);
     }
-  };
+  }, [dispatch, selectedUser, router, currentLanguage, fetchLikesData]);
 
-  const renderProfileCard = ({ item, index }) => {
+  const renderProfileCard = useCallback(({ item, index }) => {
     if (!item || !item.user) {
       return null;
     }
@@ -357,7 +358,7 @@ const LikedMeScreen = () => {
         </TouchableOpacity>
       </Animated.View>
     );
-  };
+  }, [handleCardPress, currentLanguage, scrollY]);
 
   if (loading && !refreshing) {
     return (
@@ -421,12 +422,11 @@ const LikedMeScreen = () => {
               onRefresh={onRefresh}
               tintColor={COLORS.primary}
               colors={[COLORS.primary]}
-              size={Platform.OS === "ios" ? "large" : 60}
+              size="large" // FIX: Use string instead of number
               progressViewOffset={80}
             />
           }
         >
-          {/* Show a spinner if refreshing is true */}
           {refreshing ? (
             <View
               style={{
@@ -507,7 +507,6 @@ const LikedMeScreen = () => {
             styles.emptyContainer,
             {
               paddingTop: HEADER_HEIGHT + 20,
-
               minHeight: height * 0.9,
             },
           ]}
@@ -523,7 +522,7 @@ const LikedMeScreen = () => {
               onRefresh={onRefresh}
               tintColor={COLORS.primary}
               colors={[COLORS.primary]}
-              size={Platform.OS === "ios" ? "large" : 60}
+              size="large" // FIX: Use string instead of number
               progressViewOffset={80}
             />
           }
@@ -599,6 +598,7 @@ const LikedMeScreen = () => {
       </SafeAreaView>
     );
   }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.background} barStyle="dark-content" />
@@ -622,8 +622,9 @@ const LikedMeScreen = () => {
       <Animated.FlatList
         data={likes}
         renderItem={renderProfileCard}
-        keyExtractor={(item) =>
-          item && item.id ? item.id.toString() : Math.random().toString()
+        keyExtractor={
+          (item) =>
+            item && item.id ? String(item.id) : Math.random().toString() // FIX: Ensure key is always a string
         }
         contentContainerStyle={[
           styles.listContainer,
@@ -641,7 +642,7 @@ const LikedMeScreen = () => {
             onRefresh={onRefresh}
             tintColor={COLORS.primary}
             colors={[COLORS.primary]}
-            size={Platform.OS === "ios" ? "large" : 60}
+            size="large" // FIX: Use string instead of number
             progressViewOffset={70}
             progressBackgroundColor="#ffffff"
           />
@@ -660,15 +661,6 @@ const LikedMeScreen = () => {
               {currentLanguage === "ar" ? "إعجاب متبادل" : "Like Back"}
             </Text>
             <Text style={[styles.modalText, rtlStyles.textAlign]}>
-              {currentLanguage === "ar"
-                ? `هل أنت متأكد أنك تريد الإعجاب بـ ${
-                    selectedUser?.first_name || ""
-                  }؟`
-                : `Are you sure you want to like ${
-                    selectedUser?.first_name || ""
-                  } back?`}
-            </Text>
-            <Text style={styles.modalText}>
               {currentLanguage === "ar"
                 ? `هل أنت متأكد أنك تريد الإعجاب بـ ${
                     selectedUser?.first_name || ""
@@ -1027,4 +1019,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LikedMeScreen;
+export default memo(LikedMeScreen);

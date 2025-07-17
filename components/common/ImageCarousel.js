@@ -1,13 +1,21 @@
-import React, { useState, useRef } from "react";
-import { Image, FlatList, Dimensions, Platform } from "react-native";
-const { width, height } = Dimensions.get("window");
-const HEADER_HEIGHT = Platform.OS === "ios" ? 520 : 280;
+import React, { useRef, useContext } from "react";
+import { FlatList, Image, Dimensions, Platform } from "react-native";
+import { LanguageContext } from "../../contexts/LanguageContext";
 
-const ImageCarousel = ({ photos, onPageChange }) => {
+const { width } = Dimensions.get("window");
+
+const ImageCarousel = ({ 
+  photos, 
+  onPageChange,
+  height = Platform.OS === "ios" ? 520 : 280,
+  defaultSource = require("../../assets/images/11.jpg"),
+  style = {},
+  ...flatListProps
+}) => {
+  const { isRTL } = useContext(LanguageContext);
   const flatListRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({ item }) => {
     const imageSource = item.photo_url ? { uri: item.photo_url } : item;
 
     return (
@@ -15,19 +23,18 @@ const ImageCarousel = ({ photos, onPageChange }) => {
         source={imageSource}
         style={{
           width,
-          height: HEADER_HEIGHT,
+          height,
           resizeMode: "cover",
+          ...style,
         }}
-        defaultSource={require("../../../assets/images/11.jpg")}
+        defaultSource={defaultSource}
       />
     );
   };
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
-    if (viewableItems.length > 0) {
-      const index = viewableItems[0].index;
-      setCurrentIndex(index);
-      onPageChange(index);
+    if (viewableItems.length > 0 && onPageChange) {
+      onPageChange(viewableItems[0].index);
     }
   }).current;
 
@@ -48,7 +55,9 @@ const ImageCarousel = ({ photos, onPageChange }) => {
       keyExtractor={(item, index) =>
         (item.photo_url ? item.photo_url : `photo-${index}`) + index.toString()
       }
+      {...flatListProps}
     />
   );
 };
+
 export default ImageCarousel;
