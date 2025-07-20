@@ -1,5 +1,37 @@
 {
   "validation": {
+    "firstName": {
+      "required": "First name is required",
+      "minLength": "First name must be at least 2 characters long",
+      "onlyLetters": "First name must contain only letters and spaces"
+    },
+    "lastName": {
+      "required": "Last name is required",
+      "minLength": "Last name must be at least 2 characters long",
+      "onlyLetters": "Last name must contain only letters and spaces"
+    },
+    "email": {
+      "required": "Email is required",
+      "invalid": "Please enter a valid email address"
+    },
+    "phoneNumber": {
+      "required": "Phone number is required",
+      "invalid": "Please enter a valid phone number starting with country code (e.g., 00962)"
+    },
+    "password": {
+      "required": "Password is required",
+      "minLength": "Password must be at least 8 characters long",
+      "uppercase": "Password must contain at least one uppercase letter",
+      "lowercase": "Password must contain at least one lowercase letter",
+      "number": "Password must contain at least one number"
+    },
+    "passwordConfirmation": {
+      "required": "Please confirm your password",
+      "match": "Passwords do not match"
+    },
+    "gender": {
+      "required": "Please select gender"
+    },
     "email_required": "Email is required",
     "email_invalid": "Please enter a valid email address",
     "password_required": "Password is required",
@@ -18,7 +50,10 @@
     "password": "Password",
     "password_placeholder": "Enter your password",
     "continue_journey": "Continue Journey",
-    "sign_in_with_face_id": "Sign in with Face ID"
+    "sign_in_with_face_id": "Sign in with Face ID",
+    "forgot_password": "Forgot Password?",
+    "new_user": "New to finding love?",
+    "sign_up": "Sign Up"
   },
   "language": {
     "change_title": "Change Language",
@@ -59,40 +94,111 @@
   },
   "terms": {
     "title": "Terms and Conditions",
-    "welcome_text": "Welcome to our dating app! Before proceeding, please read and accept our terms and conditions:",
-    "age_requirement": "1. Age Requirement",
-    "age_18": "You must be at least 18 years old to use this service.",
-    "age_accurate": "You agree to provide accurate information about your age.",
-    "profile_content": "2. Profile Content",
-    "profile_accurate": "You agree to provide accurate and truthful information in your profile.",
-    "no_impersonation": "You will not impersonate others or create false identities.",
-    "no_explicit": "You will not post explicit or inappropriate content.",
-    "user_conduct": "3. User Conduct",
-    "user_respect": "You will treat other users with respect and courtesy.",
-    "no_harassment": "You will not harass, stalk, or intimidate other users.",
-    "no_sharing": "You will not share other users' personal information without consent.",
-    "safety": "4. Safety Guidelines",
-    "public_meeting": "We recommend meeting in public places for first dates.",
-    "no_financial": "Do not share financial information with other users.",
-    "report": "Report suspicious or abusive behavior immediately.",
-    "privacy": "5. Privacy",
-    "data_collection": "We collect and process your data as described in our Privacy Policy.",
-    "profile_visible": "Your profile information may be visible to other users.",
-    "privacy_control": "You control your privacy settings and visible information.",
+    "welcome_text": "Welcome to our Wedding Planner app! Before proceeding, please read and accept our terms and conditions for matrimonial services:",
+    "age_requirement": "1. Age and Eligibility",
+    "age_18": "You must be at least 18 years old and legally eligible for marriage to use this service.",
+    "age_accurate": "You agree to provide accurate information about your age and marital status.",
+    "profile_content": "2. Profile Information",
+    "profile_accurate": "You agree to provide accurate and truthful information about yourself and your marriage preferences.",
+    "no_impersonation": "You will not impersonate others or create false identities for matrimonial purposes.",
+    "no_explicit": "You will maintain appropriate content suitable for a matrimonial platform.",
+    "user_conduct": "3. User Conduct and Communication",
+    "user_respect": "You will treat other users and their families with respect and courtesy.",
+    "no_harassment": "You will not harass, stalk, or intimidate other users or their family members.",
+    "no_sharing": "You will not share other users' personal or family information without explicit consent.",
+    "safety": "4. Meeting and Safety Guidelines",
+    "public_meeting": "We strongly recommend initial meetings in public places with family knowledge.",
+    "no_financial": "Never share financial information or send money to other users before marriage.",
+    "report": "Report any suspicious behavior, fraud attempts, or inappropriate conduct immediately.",
+    "privacy": "5. Privacy and Data Sharing",
+    "data_collection": "We collect and process your matrimonial data as described in our Privacy Policy.",
+    "profile_visible": "Your profile information will be visible to potential matches and their families.",
+    "privacy_control": "You control your privacy settings and can hide/show specific information.",
+    "data_sharing": "Your data may be shared with verified wedding vendors and matrimonial consultants to enhance your experience.",
+    "vendor_partnerships": "We partner with wedding venues, photographers, and other wedding service providers who may contact you with relevant offers.",
     "account_security": "6. Account Security",
-    "account_responsibility": "You are responsible for maintaining your account security.",
-    "report_unauthorized": "Report any unauthorized access immediately.",
-    "no_credential_sharing": "Do not share your login credentials with others.",
-    "termination": "7. Termination",
-    "termination_right": "We reserve the right to suspend or terminate accounts that violate these terms.",
-    "delete_account": "You can delete your account at any time.",
-    "updates": "8. Updates to Terms",
-    "periodic_updates": "We may update these terms periodically.",
-    "continued_acceptance": "Continued use after changes constitutes acceptance.",
-    "agreement_text": "By accepting these terms, you acknowledge that you have read, understood, and agree to be bound by all terms and conditions.",
+    "account_responsibility": "You are responsible for maintaining your account security and protecting your personal information.",
+    "report_unauthorized": "Report any unauthorized access or suspicious activity immediately.",
+    "no_credential_sharing": "Do not share your login credentials with others except trusted family members.",
+    "matrimonial_services": "7. Matrimonial Services",
+    "matchmaking": "Our app provides matchmaking services but does not guarantee successful marriages.",
+    "family_involvement": "We encourage family involvement in the matrimonial process as per cultural traditions.",
+    "background_verification": "While we strive to verify profiles, you are responsible for conducting your own background checks.",
+    "wedding_planning": "8. Wedding Planning Services",
+    "vendor_network": "We may connect you with our network of wedding vendors and service providers.",
+    "third_party_services": "Wedding vendor services are provided by third parties and subject to their own terms.",
+    "no_liability": "We are not liable for services provided by third-party wedding vendors.",
+    "termination": "9. Account Termination",
+    "termination_right": "We reserve the right to suspend or terminate accounts that violate these terms or engage in fraudulent behavior.",
+    "delete_account": "You can delete your account at any time, but some data may be retained for legal purposes.",
+    "successful_match": "Please inform us of successful matches to help improve our services.",
+    "updates": "10. Updates to Terms",
+    "periodic_updates": "We may update these terms periodically to reflect changes in matrimonial laws or services.",
+    "continued_acceptance": "Continued use after changes constitutes acceptance of updated terms.",
+    "agreement_text": "By accepting these terms, you acknowledge that you have read, understood, and agree to be bound by all terms and conditions for matrimonial and wedding planning services. You understand that your data may be shared with wedding vendors and that this is a platform for serious matrimonial purposes.",
     "processing": "Processing...",
-    "accept": "Accept",
-    "decline": "Decline"
+    "accept": "Accept & Continue",
+    "decline": "Decline",
+    "welcome_message": "Welcome to your journey of love! 💕",
+    "welcome_subtitle": "Please review our terms and conditions for matrimonial and wedding planning services.",
+    "section_1_title": "🎯 Age & Eligibility",
+    "section_1_item_1": "Must be 18+ years old and legally eligible for marriage",
+    "section_1_item_2": "Provide accurate age and marital status information",
+    "section_2_title": "👤 Profile Information", 
+    "section_2_item_1": "Provide truthful information about yourself and preferences",
+    "section_2_item_2": "No impersonation or false identities allowed",
+    "section_2_item_3": "Maintain appropriate content for matrimonial purposes",
+    "section_3_title": "🔒 Privacy & Data Sharing",
+    "section_3_item_1": "We collect matrimonial data as per our Privacy Policy",
+    "section_3_item_2": "Profile visible to potential matches and families",
+    "section_3_item_3": "Data shared with verified wedding vendors for better experience",
+    "section_3_item_4": "Partner with wedding venues, photographers, and service providers",
+    "section_4_title": "💍 Wedding Planning Services",
+    "section_4_item_1": "Connect with our network of wedding vendors",
+    "section_4_item_2": "Third-party services subject to their own terms",
+    "section_4_item_3": "Not liable for third-party vendor services",
+    "section_5_title": "🛡️ Safety Guidelines",
+    "section_5_item_1": "Meet initially in public places with family knowledge",
+    "section_5_item_2": "Never share financial information before marriage",
+    "section_5_item_3": "Report suspicious behavior immediately",
+    "agreement_message": "By accepting, you agree to use our platform responsibly for serious matrimonial purposes and understand your data may be shared with wedding service providers."
+  },
+  "register": {
+    "welcome_title": "Join Our Community",
+    "welcome_subtitle": "Create an account to start finding your perfect life partner",
+    "steps": {
+      "personal_info": "Personal Info",
+      "security": "Security"
+    },
+    "form": {
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "password": "Password",
+      "confirm_password": "Confirm Password",
+      "date_of_birth": "Date of Birth",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "next": "Next",
+      "back": "Back"
+    },
+    "first_name_placeholder": "Enter your first name",
+    "last_name_placeholder": "Enter your last name",
+    "email_placeholder": "Enter your email address",
+    "password_placeholder": "Create a secure password",
+    "confirm_password_placeholder": "Confirm your password",
+    "start_journey": "Start Your Journey",
+    "already_member": "Already have an account? Sign In",
+    "registration_failed": "Registration failed. Please try again.",
+    "registration_error": "Registration Error",
+    "email_already_registered": "This email is already registered",
+    "cancel": "Cancel",
+    "go_to_login": "Go to Login"
+  },
+  "profile": {
+    "age_requirement_error": "You must be at least 18 years old to register"
   },
   "filters": {
     "alerts": {
@@ -274,6 +380,13 @@
   },
 
   "register": {
+    "registration_error": "Registration Error",
+    "registration_failed": "Registration failed. Please try again.",
+    "email_already_registered": "This email is already registered. Would you like to go to the login page?",
+    "cancel": "Cancel",
+    "go_to_login": "Go to Login",
+    "ok": "OK",
+    "unknown_error": "An unknown error occurred. Please try again.",
     "gender": "Gender",
     "male": "Male",
     "female": "Female",
@@ -1030,13 +1143,22 @@
       "cancel": "Cancel"
     },
     "like_confirmation": {
-      "title": "Confirm Like",
-      "message": "Do you want to like {name}?",
-      "confirm": "Yes, Like",
+      "title": "Like Confirmation",
+      "message": "Are you sure you want to like {{name}}? They will be notified about your interest.",
+      "confirm": "Confirm",
       "cancel": "Cancel"
     },
     "like_success": {
       "message": "You liked {name}! We'll notify you if it's a match."
+    },
+    "like_success_banner": {
+      "message": "You liked {{name}}! We'll notify them of your interest."
+    },
+    "dislike_confirmation": {
+      "title": "Dislike Confirmation",
+      "message": "Are you sure you want to dislike {{name}}? They won't be notified about your decision.",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
     }
   },
   "matches": {
@@ -1094,5 +1216,46 @@
       "data_load": "There was a problem loading matches. Please try again later.",
       "refresh_failed": "There was a problem refreshing your matches. Please try again."
     }
+  },
+  "incomplete_matches": {
+    "title": "Complete Your Profile to Find Matches",
+    "subtitle": "Your perfect match is waiting! Complete your profile to unlock personalized matches.",
+    "steps_title": "What you need to complete:",
+    "steps": {
+      "basic_info": "Basic Information",
+      "basic_info_desc": "Add your personal details, location, and background information",
+      "preferences": "Preferences",
+      "preferences_desc": "Tell us what you're looking for in a partner",
+      "photos": "Profile Photos",
+      "photos_desc": "Upload photos to show your personality and interests"
+    },
+    "benefits_title": "Why complete your profile?",
+    "benefits": {
+      "better_matches": "Get more accurate and compatible matches",
+      "more_visibility": "Increase your profile visibility to potential matches",
+      "trust_safety": "Build trust with complete and verified information"
+    },
+    "complete_profile": "Complete My Profile"
+  },
+  "incomplete_search": {
+    "title": "Complete Your Profile to Search",
+    "subtitle": "Unlock advanced search features by completing your profile first.",
+    "message": "To provide you with the most relevant search results, please complete your profile information.",
+    "features_title": "What you'll unlock:",
+    "features": {
+      "advanced_search": "Advanced Search",
+      "advanced_search_desc": "Filter by detailed preferences and compatibility criteria",
+      "smart_filters": "Smart Filters",
+      "smart_filters_desc": "AI-powered recommendations based on your profile data",
+      "precise_matching": "Precise Matching",
+      "precise_matching_desc": "Find partners who truly match your values and goals"
+    },
+    "requirements_title": "Complete these sections:",
+    "requirements": {
+      "basic_info": "Personal information and background",
+      "preferences": "Partner preferences and deal-breakers",
+      "photos": "At least 3 profile photos"
+    },
+    "complete_profile": "Complete My Profile"
   }
 }

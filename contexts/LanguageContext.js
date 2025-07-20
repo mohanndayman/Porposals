@@ -151,10 +151,9 @@ export const LanguageProvider = ({ children }) => {
     loadLocale();
   }, []);
 
-  // Replace the changeLanguage function with this improved version:
+  // Improved changeLanguage function without forced restarts
   const changeLanguage = async (newLocale) => {
     try {
-      // FIX: Add validation for newLocale parameter
       if (!newLocale || typeof newLocale !== "string") {
         console.error("Invalid locale provided to changeLanguage:", newLocale);
         return;
@@ -163,39 +162,20 @@ export const LanguageProvider = ({ children }) => {
       if (newLocale !== locale) {
         const shouldBeRTL = newLocale === "ar";
 
-        // Save the language preference first
+        // Save the language preference
         await AsyncStorage.setItem("userLanguage", newLocale);
 
-        // Update the locale state immediately
+        // Update the locale state immediately for instant UI changes
         setLocale(newLocale);
         setIsRTL(shouldBeRTL);
 
-        // Check if RTL settings need to change
+        // Update RTL settings without forcing restart
         if (I18nManager.isRTL !== shouldBeRTL) {
-          // Apply RTL changes
           I18nManager.allowRTL(shouldBeRTL);
           I18nManager.forceRTL(shouldBeRTL);
-
-          // Force a full reload (needed for RTL layout changes)
-          if (Updates.isAvailable && Updates.reloadAsync) {
-            try {
-              // Add a small delay before reloading to ensure settings are applied
-              setTimeout(async () => {
-                await Updates.reloadAsync();
-              }, 100);
-            } catch (error) {
-              console.error("Failed to reload the app:", error);
-              // Alert user to manually reload
-              alert(
-                "Please restart the app for layout changes to take effect."
-              );
-            }
-          } else {
-            // If Updates API is not available
-            alert(
-              "Please restart the app for RTL layout changes to take effect."
-            );
-          }
+          
+          // Note: RTL changes will take effect on next app launch
+          // No need to force restart - modern React Native handles this gracefully
         }
       }
     } catch (error) {
@@ -235,8 +215,18 @@ export const LanguageProvider = ({ children }) => {
       console.warn(`Translation error for key: ${key}`, error);
     }
 
-    // Fallback to safeTranslate
-    return safeTranslate(translations, key, key);
+    // Fallback to safeTranslate with parameter interpolation
+    let translatedText = safeTranslate(translations, key, key);
+    
+    // Handle parameter interpolation manually if options are provided
+    if (options && typeof translatedText === "string") {
+      Object.keys(options).forEach(param => {
+        const regex = new RegExp(`\\{\\{${param}\\}\\}`, 'g');
+        translatedText = translatedText.replace(regex, options[param]);
+      });
+    }
+    
+    return translatedText;
   };
 
   if (!isReady) {

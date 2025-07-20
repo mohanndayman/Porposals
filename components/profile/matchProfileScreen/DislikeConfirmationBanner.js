@@ -44,12 +44,11 @@ const DislikeConfirmationBanner = ({
         <View style={styles.modalContent}>
           <View style={styles.modalHeader}>
             <Feather name="x-circle" size={28} color={COLORS.danger} />
-            <Text style={styles.modalTitle}>Dislike Confirmation</Text>
+            <Text style={styles.modalTitle}>{t("match_profile.dislike_confirmation.title")}</Text>
           </View>
 
           <Text style={styles.modalText}>
-            Are you sure you want to dislike {nickname}? They won't be notified
-            about your decision.
+            {t("match_profile.dislike_confirmation.message", { name: nickname })}
           </Text>
 
           <View style={styles.modalActions}>
@@ -58,7 +57,7 @@ const DislikeConfirmationBanner = ({
               onPress={onCancel}
               disabled={loading}
             >
-              <Text style={styles.modalCancelText}>Cancel</Text>
+              <Text style={styles.modalCancelText}>{t("match_profile.dislike_confirmation.cancel")}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -75,7 +74,7 @@ const DislikeConfirmationBanner = ({
               {loading ? (
                 <ActivityIndicator color="#fff" size="small" />
               ) : (
-                <Text style={styles.modalConfirmText}>Confirm</Text>
+                <Text style={styles.modalConfirmText}>{t("match_profile.dislike_confirmation.confirm")}</Text>
               )}
             </TouchableOpacity>
           </View>

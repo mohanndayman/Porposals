@@ -122,6 +122,41 @@ export const authService = {
     return response.data;
   },
 
+  requestPasswordReset: async (email) => {
+    try {
+      const response = await api.post(ENDPOINTS.PASSWORD_RESET_REQUEST, { email });
+      return response.data;
+    } catch (error) {
+      console.error("Password reset request error:", error);
+      throw error;
+    }
+  },
+
+  verifyPasswordResetOTP: async (email, otp) => {
+    try {
+      const response = await api.post(ENDPOINTS.PASSWORD_VERIFY_OTP, { email, otp });
+      return response.data;
+    } catch (error) {
+      console.error("Password reset OTP verification error:", error);
+      throw error;
+    }
+  },
+
+  resetPassword: async (email, resetToken, password, passwordConfirmation) => {
+    try {
+      const response = await api.post(ENDPOINTS.PASSWORD_RESET, {
+        email,
+        reset_token: resetToken,
+        password,
+        password_confirmation: passwordConfirmation,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Password reset error:", error);
+      throw error;
+    }
+  },
+
   logout: async () => {
     try {
       try {

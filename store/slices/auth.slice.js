@@ -142,6 +142,9 @@ const authSlice = createSlice({
     setTempEmail: (state, action) => {
       state.tempEmail = action.payload;
     },
+    clearTempEmail: (state) => {
+      state.tempEmail = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
@@ -184,7 +187,6 @@ const authSlice = createSlice({
             token_type: action.payload.token_type || "Bearer",
           };
         }
-        state.tempEmail = null;
         state.error = null;
       })
 
@@ -262,5 +264,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setTempEmail } = authSlice.actions;
+export const { setTempEmail, clearTempEmail } = authSlice.actions;
 export default authSlice.reducer;

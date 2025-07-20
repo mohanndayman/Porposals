@@ -21,12 +21,11 @@ const LikeConfirmationModal = ({ visible, onConfirm, onCancel, nickname }) => {
         <View style={styles.modalContent}>
           <View style={styles.modalHeader}>
             <Feather name="heart" size={28} color={COLORS.primary} />
-            <Text style={styles.modalTitle}>Like Confirmation</Text>
+            <Text style={styles.modalTitle}>{t("match_profile.like_confirmation.title")}</Text>
           </View>
 
           <Text style={styles.modalText}>
-            Are you sure you want to like {nickname}? They will be notified
-            about your interest.
+            {t("match_profile.like_confirmation.message", { name: nickname })}
           </Text>
 
           <View style={styles.modalActions}>
@@ -34,7 +33,7 @@ const LikeConfirmationModal = ({ visible, onConfirm, onCancel, nickname }) => {
               style={[styles.modalButton, styles.modalCancelButton]}
               onPress={onCancel}
             >
-              <Text style={styles.modalCancelText}>Cancel</Text>
+              <Text style={styles.modalCancelText}>{t("match_profile.like_confirmation.cancel")}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -47,7 +46,7 @@ const LikeConfirmationModal = ({ visible, onConfirm, onCancel, nickname }) => {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
               />
-              <Text style={styles.modalConfirmText}>Confirm</Text>
+              <Text style={styles.modalConfirmText}>{t("match_profile.like_confirmation.confirm")}</Text>
             </TouchableOpacity>
           </View>
         </View>

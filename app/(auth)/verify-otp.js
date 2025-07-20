@@ -1,103 +1,173 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   View,
   Text,
-  StyleSheet,
+  TextInput,
   TouchableOpacity,
+  StyleSheet,
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
   Alert,
-  I18nManager,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
-import {
-  verifyOTP,
-  resendOTP,
-  setTempEmail,
-} from "../../store/slices/auth.slice";
-import OTPTextInput from "react-native-otp-textinput";
-import { useRoute } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
+
+import { verifyOTP, resendOTP, clearTempEmail, setTempEmail } from "../../store/slices/auth.slice";
 import { LanguageContext } from "../../contexts/LanguageContext";
+import COLORS from "../../constants/colors";
 
 export default function VerifyOTPScreen() {
+  const [otp, setOTP] = useState(["", "", "", "", "", ""]);
+  const [errors, setErrors] = useState({});
+  const [resendCountdown, setResendCountdown] = useState(0);
+
+  const inputRefs = useRef([]);
   const dispatch = useDispatch();
-  const { tempEmail, loading, error } = useSelector((state) => state.auth);
-  const route = useRoute();
-  const [otp, setOTP] = useState("");
-  const [validationError, setValidationError] = useState("");
+  const { loading, tempEmail } = useSelector((state) => state.auth);
+  const { locale, isRTL, changeLanguage, t } = useContext(LanguageContext);
+  const params = useLocalSearchParams();
 
-  const { locale, isRTL, t } = useContext(LanguageContext);
+  // Get email from params or store
+  const email = params.email || tempEmail;
 
+  // Set tempEmail from route params if available
   useEffect(() => {
-    const routeEmail = route.params?.email;
+    const routeEmail = params.email;
     if (routeEmail) {
       dispatch(setTempEmail(routeEmail));
     }
-  }, [route.params?.email, dispatch]);
+  }, [params.email, dispatch]);
 
   useEffect(() => {
-    if (otp.length === 6 && !loading) {
+    // Start countdown timer if needed
+    if (resendCountdown > 0) {
+      const timer = setTimeout(() => {
+        setResendCountdown(resendCountdown - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [resendCountdown]);
+
+  useEffect(() => {
+    // Auto-verify when all digits are filled
+    const otpString = otp.join("");
+    if (otpString.length === 6 && !loading) {
       handleVerify();
     }
   }, [otp, loading]);
 
-  const handleVerify = async () => {
-    setValidationError("");
-    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  const handleOTPChange = (value, index) => {
+    // Only allow numeric input
+    if (!/^\d*$/.test(value)) return;
 
-    if (!otp || otp.length !== 6) {
-      setValidationError(t("verification.valid_code"));
-      return;
+    const newOTP = [...otp];
+    newOTP[index] = value;
+    setOTP(newOTP);
+
+    // Auto-focus next input
+    if (value && index < 5) {
+      inputRefs.current[index + 1]?.focus();
     }
 
-    if (!tempEmail) {
-      setValidationError(t("verification.email_missing"));
+    // Clear errors when user starts typing
+    if (errors.otp) {
+      setErrors({});
+    }
+  };
+
+  const handleKeyPress = (e, index) => {
+    // Handle backspace
+    if (e.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const validateOTP = () => {
+    const otpString = otp.join("");
+    const newErrors = {};
+
+    if (otpString.length !== 6) {
+      newErrors.otp = t("verification.valid_code");
+    }
+
+    if (!email) {
+      newErrors.email = t("verification.email_missing");
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleVerify = async () => {
+    if (!validateOTP()) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       return;
     }
 
     try {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      const otpString = otp.join("");
       const result = await dispatch(
-        verifyOTP({ email: tempEmail, otp })
+        verifyOTP({ email, otp: otpString })
       ).unwrap();
 
       if (result.success) {
-        await Haptics.notificationAsync(
-          Haptics.NotificationFeedbackType.Success
-        );
-        router.replace("/(tabs)/home");
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+
+        // Clear tempEmail after successful verification
+        dispatch(clearTempEmail());
+
+        // Handle first time login - redirect to profile completion
+        if (result.first_time_login) {
+          router.replace("/(profile)/fillProfileData");
+        } else {
+          router.replace("/(tabs)/home");
+        }
       } else {
-        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        setValidationError(result.message || t("verification.failed"));
+        throw new Error(result.message || t("verification.failed"));
       }
     } catch (error) {
-      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      setValidationError(error.message || t("verification.failed"));
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      setErrors({
+        otp: error.message || t("verification.failed"),
+      });
+      // Clear OTP on error
+      setOTP(["", "", "", "", "", ""]);
+      inputRefs.current[0]?.focus();
     }
   };
 
   const handleResendOTP = async () => {
-    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-
-    if (!tempEmail) {
-      setValidationError(t("verification.email_missing"));
-      return;
-    }
+    if (resendCountdown > 0 || !email) return;
 
     try {
-      const result = await dispatch(resendOTP(tempEmail)).unwrap();
-      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      const result = await dispatch(resendOTP(email)).unwrap();
 
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       Alert.alert(
-        t("verification.otp_resent"),
-        result.message || t("verification.new_code_sent")
+        "✅ " + t("verification.otp_resent"),
+        result.message || t("verification.new_code_sent"),
+        [
+          {
+            text: t("common.ok"),
+            style: "default",
+          },
+        ]
       );
-    } catch (error) {
-      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
 
+      // Start countdown - 30 seconds
+      setResendCountdown(30);
+      // Clear current OTP
+      setOTP(["", "", "", "", "", ""]);
+      setErrors({});
+      inputRefs.current[0]?.focus();
+    } catch (error) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       Alert.alert(
         t("verification.resend_failed"),
         error.message || t("verification.could_not_resend")
@@ -105,76 +175,178 @@ export default function VerifyOTPScreen() {
     }
   };
 
+  const toggleLanguage = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    changeLanguage(locale === "en" ? "ar" : "en");
+  };
+
+  const isOTPComplete = otp.every((digit) => digit !== "");
+
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View style={styles.header}>
-        <MaterialIcons name="verified" size={60} color="#9e086c" />
-        <Text style={styles.title}>{t("verification.verify_email")}</Text>
-        <Text style={[styles.subtitle, isRTL && { textAlign: "right" }]}>
-          {t("verification.enter_code")} {tempEmail}
-        </Text>
-      </View>
+      <LinearGradient
+        colors={[COLORS.primary + "10", COLORS.secondary + "10"]}
+        style={StyleSheet.absoluteFill}
+      />
 
-      <View style={styles.otpContainer}>
-        <OTPTextInput
-          handleTextChange={setOTP}
-          inputCount={6}
-          tintColor="#9e086c"
-          offTintColor={validationError ? "#FF3B30" : "#E5E5EA"}
-          textInputStyle={[
-            styles.otpInput,
-            validationError && styles.otpInputError,
-          ]}
-          containerStyle={styles.otpInputContainer}
-        />
+      <View style={styles.content}>
+        {/* Language Toggle */}
+        <TouchableOpacity
+          style={styles.languageToggle}
+          onPress={toggleLanguage}
+        >
+          <MaterialIcons name="language" size={20} color={COLORS.text} />
+          <Text style={styles.languageText}>
+            {locale === "en" ? "العربية" : "English"}
+          </Text>
+        </TouchableOpacity>
 
-        {(validationError || error) && (
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.iconContainer}>
+            <MaterialIcons name="verified" size={60} color={COLORS.primary} />
+          </View>
+          <Text style={[styles.title, isRTL && styles.textRTL]}>
+            {t("verification.verify_email")}
+          </Text>
+          <Text style={[styles.subtitle, isRTL && styles.textRTL]}>
+            {t("verification.enter_code")}
+          </Text>
+          
+          {/* Email Display Card */}
+          {email ? (
+            <View style={styles.emailCard}>
+              <MaterialIcons name="email" size={20} color={COLORS.primary} />
+              <Text style={[styles.emailDisplayText, isRTL && styles.textRTL]}>
+                {email}
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.missingEmailCard}>
+              <MaterialIcons name="warning" size={20} color={COLORS.error} />
+              <Text style={[styles.missingEmailText, isRTL && styles.textRTL]}>
+                {t("verification.email_missing")}
+              </Text>
+            </View>
+          )}
+        </View>
+
+        {/* OTP Input */}
+        <View style={styles.otpContainer}>
           <View
             style={[
-              styles.errorContainer,
-              isRTL && { flexDirection: "row-reverse" },
+              styles.otpInputContainer,
+              isRTL && styles.otpInputContainerRTL,
             ]}
           >
-            <MaterialIcons
-              name="error"
-              size={16}
-              color="#FF3B30"
-              style={isRTL ? { marginLeft: 8 } : { marginRight: 8 }}
-            />
-            <Text style={[styles.errorText, isRTL && { textAlign: "right" }]}>
-              {validationError || error}
-            </Text>
+            {otp.map((digit, index) => (
+              <TextInput
+                key={index}
+                ref={(ref) => (inputRefs.current[index] = ref)}
+                style={[
+                  styles.otpInput,
+                  errors.otp && styles.otpInputError,
+                  digit && styles.otpInputFilled,
+                ]}
+                value={digit}
+                onChangeText={(value) => handleOTPChange(value, index)}
+                onKeyPress={(e) => handleKeyPress(e, index)}
+                keyboardType="numeric"
+                maxLength={1}
+                textAlign="center"
+                autoFocus={index === 0}
+                selectTextOnFocus
+              />
+            ))}
           </View>
-        )}
-      </View>
 
-      <TouchableOpacity
-        style={[styles.verifyButton, loading && styles.buttonDisabled]}
-        onPress={handleVerify}
-        disabled={loading}
-      >
-        {loading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.buttonText}>
-            {t("verification.verify_button")}
+          {/* Error Message */}
+          {(errors.otp || errors.email) && (
+            <View style={styles.errorContainer}>
+              <MaterialIcons name="error" size={16} color={COLORS.error} />
+              <Text style={[styles.errorText, isRTL && styles.textRTL]}>
+                {errors.otp || errors.email}
+              </Text>
+            </View>
+          )}
+        </View>
+
+        {/* Verify Button */}
+        <TouchableOpacity
+          style={[
+            styles.verifyButton,
+            (!isOTPComplete || loading) && styles.verifyButtonDisabled,
+          ]}
+          onPress={handleVerify}
+          disabled={!isOTPComplete || loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#FFFFFF" />
+          ) : (
+            <>
+              <Text style={styles.verifyButtonText}>
+                {t("verification.verify_button")}
+              </Text>
+              <MaterialIcons name="check-circle" size={20} color="#FFFFFF" />
+            </>
+          )}
+        </TouchableOpacity>
+
+        {/* Resend Section */}
+        <View style={styles.resendContainer}>
+          <Text style={[styles.resendText, isRTL && styles.textRTL]}>
+            {t("verification.didnt_receive")}
           </Text>
-        )}
-      </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.resendButton}
-        onPress={handleResendOTP}
-        disabled={loading}
-      >
-        <Text style={[styles.resendText, isRTL && { textAlign: "right" }]}>
-          {t("verification.didnt_receive")}
-        </Text>
-        <Text style={styles.resendLink}>{t("verification.resend_code")}</Text>
-      </TouchableOpacity>
+          {resendCountdown > 0 ? (
+            <View style={styles.countdownContainer}>
+              <MaterialIcons
+                name="timer"
+                size={16}
+                color={COLORS.textSecondary}
+              />
+              <Text style={[styles.countdownText, isRTL && styles.textRTL]}>
+                {t("verification.resend_code")} ({resendCountdown}s)
+              </Text>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={[
+                styles.resendButton,
+                loading && styles.resendButtonDisabled,
+              ]}
+              onPress={handleResendOTP}
+              disabled={loading}
+            >
+              <Text style={[styles.resendButtonText, isRTL && styles.textRTL]}>
+                {t("verification.resend_code")}
+              </Text>
+              <MaterialIcons name="refresh" size={16} color={COLORS.primary} />
+            </TouchableOpacity>
+          )}
+        </View>
+
+        {/* Back to Register */}
+        <TouchableOpacity
+          style={styles.backToRegister}
+          onPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            router.push("/(auth)/register");
+          }}
+        >
+          <MaterialIcons
+            name={isRTL ? "arrow-forward" : "arrow-back"}
+            size={16}
+            color={COLORS.textSecondary}
+          />
+          <Text style={[styles.backToRegisterText, isRTL && styles.textRTL]}>
+            {t("register.form.back")}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -182,84 +354,209 @@ export default function VerifyOTPScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    padding: 24,
+    backgroundColor: "#FFFFFF",
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+  },
+  languageToggle: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-end",
+    marginTop: 10,
+    marginBottom: 20,
+    gap: 8,
+  },
+  languageText: {
+    fontSize: 16,
+    color: COLORS.text,
+    fontWeight: "500",
   },
   header: {
     alignItems: "center",
-    marginTop: 60,
     marginBottom: 40,
+    marginTop: 40,
+  },
+  iconContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: COLORS.primary + "10",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 24,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#333",
-    marginTop: 20,
-    marginBottom: 8,
+    color: COLORS.text,
+    marginBottom: 12,
   },
   subtitle: {
     fontSize: 16,
-    color: "#666",
+    color: COLORS.textSecondary,
     textAlign: "center",
-    marginBottom: 32,
+    lineHeight: 22,
+  },
+  emailText: {
+    fontWeight: "600",
+    color: COLORS.primary,
+  },
+  emailCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: COLORS.primary + "08",
+    borderWidth: 1,
+    borderColor: COLORS.primary + "20",
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginTop: 16,
+    gap: 10,
+    alignSelf: "center",
+    minWidth: "80%",
+    justifyContent: "center",
+  },
+  emailDisplayText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: COLORS.primary,
+    textAlign: "center",
+  },
+  missingEmailCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: COLORS.error + "08",
+    borderWidth: 1,
+    borderColor: COLORS.error + "20",
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginTop: 16,
+    gap: 10,
+    alignSelf: "center",
+    minWidth: "80%",
+    justifyContent: "center",
+  },
+  missingEmailText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: COLORS.error,
+    textAlign: "center",
   },
   otpContainer: {
     alignItems: "center",
-    marginBottom: 32,
+    marginBottom: 40,
   },
   otpInputContainer: {
-    marginBottom: 16,
+    flexDirection: "row",
+    gap: 12,
+    marginBottom: 20,
+  },
+  otpInputContainerRTL: {
+    flexDirection: "row-reverse",
   },
   otpInput: {
-    width: 45,
-    height: 45,
-    borderWidth: 1,
-    borderRadius: 8,
-    fontSize: 24,
-    backgroundColor: "#fff",
+    width: 48,
+    height: 56,
+    borderWidth: 2,
+    borderColor: COLORS.border,
+    borderRadius: 12,
+    fontSize: 20,
+    fontWeight: "600",
+    color: COLORS.text,
+    backgroundColor: "#FFFFFF",
+    textAlign: "center",
+  },
+  otpInputFilled: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.primary + "05",
   },
   otpInputError: {
-    borderColor: "#FF3B30",
+    borderColor: COLORS.error,
   },
   errorContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#FF3B3010",
+    backgroundColor: COLORS.error + "10",
     padding: 12,
     borderRadius: 8,
-    width: "100%",
+    gap: 8,
+    maxWidth: "100%",
   },
   errorText: {
-    color: "#FF3B30",
-    marginLeft: 8,
+    color: COLORS.error,
     fontSize: 14,
     flex: 1,
   },
   verifyButton: {
-    height: 56,
-    backgroundColor: "#9e086c",
-    borderRadius: 28,
+    flexDirection: "row",
+    height: 52,
+    backgroundColor: COLORS.primary,
+    borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 30,
+    gap: 8,
   },
-  buttonDisabled: {
-    opacity: 0.7,
+  verifyButtonDisabled: {
+    opacity: 0.5,
   },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
+  verifyButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
     fontWeight: "600",
   },
-  resendButton: {
+  resendContainer: {
     alignItems: "center",
+    marginBottom: 30,
   },
   resendText: {
-    color: "#666",
-    marginBottom: 4,
+    fontSize: 14,
+    color: COLORS.textSecondary,
+    marginBottom: 8,
   },
-  resendLink: {
-    color: "#9e086c",
+  resendButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
+  resendButtonText: {
+    fontSize: 16,
+    color: COLORS.primary,
     fontWeight: "600",
+  },
+  countdownContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: COLORS.background,
+    borderRadius: 20,
+  },
+  countdownText: {
+    fontSize: 14,
+    color: COLORS.textSecondary,
+    fontWeight: "500",
+  },
+  resendButtonDisabled: {
+    opacity: 0.5,
+  },
+  backToRegister: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    marginTop: "auto",
+    marginBottom: 20,
+  },
+  backToRegisterText: {
+    fontSize: 16,
+    color: COLORS.textSecondary,
+  },
+  textRTL: {
+    textAlign: "right",
   },
 });

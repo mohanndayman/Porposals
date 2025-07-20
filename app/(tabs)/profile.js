@@ -38,6 +38,7 @@ import ModernLoadingScreen from "../../components/common/ModernLoader";
 import LanguageSelector from "../../components/Language/LanguageSelector";
 import RTLWrapper from "../../components/common/RTLWrapper";
 import { LanguageContext } from "../../contexts/LanguageContext";
+import ProfileScreenSkeleton from "../../components/profile/ProfileScreenSkeleton";
 const getTextAlign = (isRTL) => (isRTL ? "right" : "left");
 
 const getFlexDirection = (isRTL) => (isRTL ? "row-reverse" : "row");
@@ -382,7 +383,7 @@ const ProfileScreen = () => {
   };
 
   if (loading && !refreshing && !profile) {
-    return <ModernLoadingScreen />;
+    return <ProfileScreenSkeleton />;
   }
 
   if (error) {

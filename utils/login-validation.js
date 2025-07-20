@@ -1,13 +1,13 @@
 // login-validation.js
 export const validateEmail = (email, t) => {
   if (!email.trim()) {
-    return t ? t("validation.email_required") : "Email is required";
+    return t ? t("validation.email.required") : "Email is required";
   }
 
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
   if (!emailRegex.test(email)) {
     return t
-      ? t("validation.email_invalid")
+      ? t("validation.email.invalid")
       : "Please enter a valid email address";
   }
 
@@ -16,12 +16,12 @@ export const validateEmail = (email, t) => {
 
 export const validatePassword = (password, t) => {
   if (!password) {
-    return t ? t("validation.password_required") : "Password is required";
+    return t ? t("validation.password.required") : "Password is required";
   }
 
   if (password.length < 8) {
     return t
-      ? t("validation.password_min_length")
+      ? t("validation.password.minLength")
       : "Password must be at least 8 characters";
   }
 

@@ -33,48 +33,28 @@ export const useRegisterForm = () => {
       [field]: processedValue,
     }));
 
+    // Clear API errors when user starts typing
+    if (apiErrors[field]) {
+      setApiErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+
+      setValidationErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+
+    // Validate field if it has been touched
     if (touched[field]) {
       const error = validateField(field, processedValue, formData);
       setValidationErrors((prev) => ({
         ...prev,
         [field]: error,
       }));
-    }
-
-    if (apiErrors[field]) {
-      setApiErrors((prev) => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
-      });
-
-      setValidationErrors((prev) => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
-      });
-    }
-
-    if (touched[field]) {
-      const error = validateField(field, value, formData);
-      setValidationErrors((prev) => ({
-        ...prev,
-        [field]: error,
-      }));
-    }
-
-    if (apiErrors[field]) {
-      setApiErrors((prev) => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
-      });
-
-      setValidationErrors((prev) => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
-      });
     }
   };
 

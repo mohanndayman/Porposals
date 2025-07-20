@@ -33,6 +33,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLORS } from "../../constants/colors";
 import createStyles from "../../styles/matches";
 import withProfileCompletion from "../../components/profile/withProfileCompletion";
+import IncompleteProfileMatchesScreen from "../../components/matches/IncompleteProfileMatchesScreen";
 import { useImageUtils } from "../../hooks/useImageUtils";
 import { fetchProfileCompletionData } from "../../store/slices/profileCompletionSlice";
 import { selectHasSearched } from "../../store/slices/searchSlice";
@@ -884,4 +885,4 @@ const MatchesScreen = () => {
   );
 };
 
-export default withProfileCompletion(MatchesScreen);
+export default withProfileCompletion(MatchesScreen, IncompleteProfileMatchesScreen);

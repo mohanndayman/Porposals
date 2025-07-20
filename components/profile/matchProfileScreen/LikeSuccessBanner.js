@@ -13,7 +13,7 @@ const LikeSuccessBanner = ({ nickname }) => {
         <Feather name="check" size={20} color={COLORS.white} />
       </View>
       <Text style={styles.successBannerText}>
-        You liked {nickname}! We'll notify them of your interest.
+        {t("match_profile.like_success_banner.message", { name: nickname })}
       </Text>
     </View>
   );

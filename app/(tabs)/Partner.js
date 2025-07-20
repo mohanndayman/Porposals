@@ -31,6 +31,7 @@ import SearchActionButtons from "../../components/search/SearchActionButtons";
 import MultiSelectChips from "../../components/search/MultiSelectChips";
 import createRTLAwareStyles from "../../styles/createRTLAwareStyles";
 import withProfileCompletion from "../../components/profile/withProfileCompletion";
+import IncompleteProfileSearchScreen from "../../components/search/IncompleteProfileSearchScreen";
 import {
   updatePreference,
   submitSearchPreferences,
@@ -1017,4 +1018,4 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
 });
-export default withProfileCompletion(AdvancedSearchScreen);
+export default withProfileCompletion(AdvancedSearchScreen, IncompleteProfileSearchScreen);

@@ -1,4 +1,11 @@
-import React, { useState, useRef, useEffect, useCallback, useMemo, memo } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  memo,
+} from "react";
 import {
   View,
   Text,
@@ -33,9 +40,9 @@ import { useContext } from "react";
 import { LanguageContext } from "../../contexts/LanguageContext";
 
 const { width, height } = Dimensions.get("window");
-const CARD_WIDTH = width * 0.85;
-const CARD_HEIGHT = height * 0.18;
-const HEADER_HEIGHT = Platform.OS === "ios" ? 90 : 70;
+const CARD_WIDTH = width * 0.9;
+const CARD_HEIGHT = height * 0.14;
+const HEADER_HEIGHT = Platform.OS === "ios" ? 100 : 80;
 
 const LikedMeScreen = () => {
   const { isRTL } = useContext(LanguageContext);
@@ -52,49 +59,52 @@ const LikedMeScreen = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const rtlStyles = useMemo(() => ({
-    headerContent: {
-      alignItems: isRTL ? "flex-end" : "flex-start",
-      width: "100%",
-    },
-    cardInner: {
-      flexDirection: isRTL ? "row-reverse" : "row",
-    },
-    cardImageContainer: {
-      borderTopLeftRadius: isRTL ? 0 : 18,
-      borderBottomLeftRadius: isRTL ? 0 : 18,
-      borderTopRightRadius: isRTL ? 18 : 0,
-      borderBottomRightRadius: isRTL ? 18 : 0,
-    },
-    profileImage: {
-      borderTopLeftRadius: isRTL ? 0 : 18,
-      borderBottomLeftRadius: isRTL ? 0 : 18,
-      borderTopRightRadius: isRTL ? 18 : 0,
-      borderBottomRightRadius: isRTL ? 18 : 0,
-    },
-    imageGradient: {
-      borderBottomLeftRadius: isRTL ? 0 : 18,
-      borderBottomRightRadius: isRTL ? 18 : 0,
-    },
-    likedBadge: {
-      left: isRTL ? null : 10,
-      right: isRTL ? 10 : null,
-    },
-    modalButtons: {
-      flexDirection: isRTL ? "row-reverse" : "row",
-    },
-    cancelButton: {
-      marginRight: isRTL ? 0 : 10,
-      marginLeft: isRTL ? 10 : 0,
-    },
-    confirmButton: {
-      marginLeft: isRTL ? 0 : 10,
-      marginRight: isRTL ? 10 : 0,
-    },
-    textAlign: {
-      textAlign: isRTL ? "right" : "left",
-    },
-  }), [isRTL]);
+  const rtlStyles = useMemo(
+    () => ({
+      headerContent: {
+        alignItems: isRTL ? "flex-end" : "flex-start",
+        width: "100%",
+      },
+      cardInner: {
+        flexDirection: isRTL ? "row-reverse" : "row",
+      },
+      cardImageContainer: {
+        borderTopLeftRadius: isRTL ? 0 : 16,
+        borderBottomLeftRadius: isRTL ? 0 : 16,
+        borderTopRightRadius: isRTL ? 16 : 0,
+        borderBottomRightRadius: isRTL ? 16 : 0,
+      },
+      profileImage: {
+        borderTopLeftRadius: isRTL ? 0 : 16,
+        borderBottomLeftRadius: isRTL ? 0 : 16,
+        borderTopRightRadius: isRTL ? 16 : 0,
+        borderBottomRightRadius: isRTL ? 16 : 0,
+      },
+      imageGradient: {
+        borderBottomLeftRadius: isRTL ? 0 : 16,
+        borderBottomRightRadius: isRTL ? 16 : 0,
+      },
+      likedBadge: {
+        left: isRTL ? null : 8,
+        right: isRTL ? 8 : null,
+      },
+      modalButtons: {
+        flexDirection: isRTL ? "row-reverse" : "row",
+      },
+      cancelButton: {
+        marginRight: isRTL ? 0 : 10,
+        marginLeft: isRTL ? 10 : 0,
+      },
+      confirmButton: {
+        marginLeft: isRTL ? 0 : 10,
+        marginRight: isRTL ? 10 : 0,
+      },
+      textAlign: {
+        textAlign: isRTL ? "right" : "left",
+      },
+    }),
+    [isRTL]
+  );
 
   useEffect(() => {
     const loadLanguage = async () => {
@@ -136,30 +146,41 @@ const LikedMeScreen = () => {
     await fetchLikesData();
   }, [fetchLikesData]);
 
-  const headerOpacity = useMemo(() => scrollY.interpolate({
-    inputRange: [0, 50],
-    outputRange: [1, 0.9],
-    extrapolate: "clamp",
-  }), [scrollY]);
+  const headerOpacity = useMemo(
+    () =>
+      scrollY.interpolate({
+        inputRange: [0, 50],
+        outputRange: [1, 0.9],
+        extrapolate: "clamp",
+      }),
+    [scrollY]
+  );
 
-  const headerTranslate = useMemo(() => scrollY.interpolate({
-    inputRange: [0, 100],
-    outputRange: [0, -10],
-    extrapolate: "clamp",
-  }), [scrollY]);
+  const headerTranslate = useMemo(
+    () =>
+      scrollY.interpolate({
+        inputRange: [0, 100],
+        outputRange: [0, -10],
+        extrapolate: "clamp",
+      }),
+    [scrollY]
+  );
 
-  const handleCardPress = useCallback((user) => {
-    if (!user || !user.id) return;
+  const handleCardPress = useCallback(
+    (user) => {
+      if (!user || !user.id) return;
 
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    router.push({
-      pathname: "/(profile)/matchProfile",
-      params: {
-        userId: String(user.id), // FIX: Ensure userId is a string
-        fromTab: "likes",
-      },
-    });
-  }, [router]);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      router.push({
+        pathname: "/(profile)/matchProfile",
+        params: {
+          userId: String(user.id), // FIX: Ensure userId is a string
+          fromTab: "likes",
+        },
+      });
+    },
+    [router]
+  );
 
   const handleLikeBack = useCallback((user) => {
     if (!user || !user.id) return;
@@ -221,144 +242,150 @@ const LikedMeScreen = () => {
     }
   }, [dispatch, selectedUser, router, currentLanguage, fetchLikesData]);
 
-  const renderProfileCard = useCallback(({ item, index }) => {
-    if (!item || !item.user) {
-      return null;
-    }
+  const renderProfileCard = useCallback(
+    ({ item, index }) => {
+      if (!item || !item.user) {
+        return null;
+      }
 
-    const user = item.user;
+      const user = item.user;
 
-    const gradientDirection =
-      index % 3 === 0
-        ? ["#8A2387", "#E94057"]
-        : index % 3 === 1
-        ? ["#4568DC", "#B06AB3"]
-        : ["#0F2027", "#2C5364"];
+      const gradientDirection =
+        index % 3 === 0
+          ? ["#8A2387", "#E94057"]
+          : index % 3 === 1
+          ? ["#4568DC", "#B06AB3"]
+          : ["#0F2027", "#2C5364"];
 
-    let imageUrl = "https://via.placeholder.com/500x500";
-    if (user.photos && Array.isArray(user.photos) && user.photos.length > 0) {
-      const mainPhoto =
-        user.photos.find((photo) => photo && photo.is_main === 1) ||
-        user.photos[0];
-      if (mainPhoto && mainPhoto.url) {
-        if (mainPhoto.url.startsWith("http")) {
-          imageUrl = mainPhoto.url;
-        } else {
-          const baseUrl = "https://proposals.world";
-          const photoPath = mainPhoto.url.startsWith("/")
-            ? mainPhoto.url
-            : `/${mainPhoto.url}`;
-          imageUrl = `${baseUrl}${photoPath}`;
+      let imageUrl = "https://via.placeholder.com/500x500";
+      if (user.photos && Array.isArray(user.photos) && user.photos.length > 0) {
+        const mainPhoto =
+          user.photos.find((photo) => photo && photo.is_main === 1) ||
+          user.photos[0];
+        if (mainPhoto && mainPhoto.url) {
+          if (mainPhoto.url.startsWith("http")) {
+            imageUrl = mainPhoto.url;
+          } else {
+            const baseUrl = "https://proposals.world";
+            const photoPath = mainPhoto.url.startsWith("/")
+              ? mainPhoto.url
+              : `/${mainPhoto.url}`;
+            imageUrl = `${baseUrl}${photoPath}`;
+          }
         }
       }
-    }
 
-    return (
-      <Animated.View
-        style={[
-          styles.card,
-          {
-            transform: [
-              {
-                scale: scrollY.interpolate({
-                  inputRange: [-100, 0, 150 * index, 150 * (index + 1)],
-                  outputRange: [1, 1, 1, 0.98],
-                  extrapolate: "clamp",
-                }),
-              },
-              {
-                translateY: scrollY.interpolate({
-                  inputRange: [-100, 0, 150 * index, 150 * (index + 1)],
-                  outputRange: [0, 0, 0, -5],
-                  extrapolate: "clamp",
-                }),
-              },
-            ],
-          },
-        ]}
-      >
-        <TouchableOpacity
-          onPress={() => handleCardPress(user)}
-          activeOpacity={0.9}
-          style={styles.cardTouchable}
+      return (
+        <Animated.View
+          style={[
+            styles.card,
+            {
+              transform: [
+                {
+                  scale: scrollY.interpolate({
+                    inputRange: [-100, 0, 150 * index, 150 * (index + 1)],
+                    outputRange: [1, 1, 1, 0.98],
+                    extrapolate: "clamp",
+                  }),
+                },
+                {
+                  translateY: scrollY.interpolate({
+                    inputRange: [-100, 0, 150 * index, 150 * (index + 1)],
+                    outputRange: [0, 0, 0, -5],
+                    extrapolate: "clamp",
+                  }),
+                },
+              ],
+            },
+          ]}
         >
-          <View style={[styles.cardInner, rtlStyles.cardInner]}>
-            <View
-              style={[styles.cardImageContainer, rtlStyles.cardImageContainer]}
-            >
-              <Image
-                source={{ uri: imageUrl }}
-                style={[styles.profileImage, rtlStyles.profileImage]}
-                resizeMode="cover"
-              />
-              <LinearGradient
-                colors={["transparent", "rgba(0,0,0,0.6)"]}
-                style={[styles.imageGradient, rtlStyles.imageGradient]}
-              />
-              <View style={[styles.likedBadge, rtlStyles.likedBadge]}>
-                <LinearGradient
-                  colors={["#FF4D67", "#FF8A9B"]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={styles.likedBadgeGradient}
-                >
-                  <Text style={styles.likedBadgeText}>
-                    {currentLanguage === "ar" ? "معجب بك" : "Liked You"}
-                  </Text>
-                </LinearGradient>
-              </View>
-            </View>
-
-            <View style={styles.cardContent}>
-              <View style={styles.userInfoContainer}>
-                <Text
-                  style={[styles.name, rtlStyles.textAlign]}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
-                  {user.first_name} {user.last_name || ""}
-                </Text>
-                {(user.age ||
-                  user.location ||
-                  user.city_of_residence ||
-                  user.country_of_residence) && (
-                  <Text
-                    style={[styles.userDetails, rtlStyles.textAlign]}
-                    numberOfLines={1}
-                  >
-                    {user.age ? `${user.age}, ` : ""}
-                    {user.city_of_residence || user.location || ""}
-                    {user.city_of_residence && user.country_of_residence
-                      ? ", "
-                      : ""}
-                    {user.country_of_residence || ""}
-                  </Text>
-                )}
-              </View>
-
-              <TouchableOpacity
-                style={styles.likeBackButton}
-                onPress={() => handleCardPress(user)}
+          <TouchableOpacity
+            onPress={() => handleCardPress(user)}
+            activeOpacity={0.9}
+            style={styles.cardTouchable}
+          >
+            <View style={[styles.cardInner, rtlStyles.cardInner]}>
+              <View
+                style={[
+                  styles.cardImageContainer,
+                  rtlStyles.cardImageContainer,
+                ]}
               >
+                <Image
+                  source={{ uri: imageUrl }}
+                  style={[styles.profileImage, rtlStyles.profileImage]}
+                  resizeMode="cover"
+                />
                 <LinearGradient
-                  colors={gradientDirection}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={styles.likeBackGradient}
-                >
-                  <Text style={styles.likeBackText}>
-                    {currentLanguage === "ar"
-                      ? "اذهب الى التفاصيل"
-                      : "See Full Profile"}
+                  colors={["transparent", "rgba(0,0,0,0.6)"]}
+                  style={[styles.imageGradient, rtlStyles.imageGradient]}
+                />
+                <View style={[styles.likedBadge, rtlStyles.likedBadge]}>
+                  <LinearGradient
+                    colors={["#FF4D67", "#FF8A9B"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.likedBadgeGradient}
+                  >
+                    <Text style={styles.likedBadgeText}>
+                      {currentLanguage === "ar" ? "معجب بك" : "Liked You"}
+                    </Text>
+                  </LinearGradient>
+                </View>
+              </View>
+
+              <View style={styles.cardContent}>
+                <View style={styles.userInfoContainer}>
+                  <Text
+                    style={[styles.name, rtlStyles.textAlign]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {user.first_name} {user.last_name || ""}
                   </Text>
-                </LinearGradient>
-              </TouchableOpacity>
+                  {(user.age ||
+                    user.location ||
+                    user.city_of_residence ||
+                    user.country_of_residence) && (
+                    <Text
+                      style={[styles.userDetails, rtlStyles.textAlign]}
+                      numberOfLines={1}
+                    >
+                      {user.age ? `${user.age}, ` : ""}
+                      {user.city_of_residence || user.location || ""}
+                      {user.city_of_residence && user.country_of_residence
+                        ? ", "
+                        : ""}
+                      {user.country_of_residence || ""}
+                    </Text>
+                  )}
+                </View>
+
+                <TouchableOpacity
+                  style={styles.likeBackButton}
+                  onPress={() => handleCardPress(user)}
+                >
+                  <LinearGradient
+                    colors={gradientDirection}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.likeBackGradient}
+                  >
+                    <Text style={styles.likeBackText}>
+                      {currentLanguage === "ar"
+                        ? "اذهب الى التفاصيل"
+                        : "See Full Profile"}
+                    </Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
-      </Animated.View>
-    );
-  }, [handleCardPress, currentLanguage, scrollY]);
+          </TouchableOpacity>
+        </Animated.View>
+      );
+    },
+    [handleCardPress, currentLanguage, scrollY]
+  );
 
   if (loading && !refreshing) {
     return (
@@ -390,7 +417,7 @@ const LikedMeScreen = () => {
               style={[
                 styles.headerTitle,
                 {
-                  textAlign: isRTL ? "right" : "right",
+                  textAlign: isRTL ? "right" : "left",
                   alignSelf: isRTL ? "flex-end" : "flex-start",
                   width: "100%",
                 },
@@ -405,7 +432,7 @@ const LikedMeScreen = () => {
           contentContainerStyle={[
             styles.centerContent,
             {
-              paddingTop: HEADER_HEIGHT + 20,
+              paddingTop: HEADER_HEIGHT + 30,
               paddingBottom: 100,
               minHeight: height * 1.1,
             },
@@ -506,7 +533,7 @@ const LikedMeScreen = () => {
           contentContainerStyle={[
             styles.emptyContainer,
             {
-              paddingTop: HEADER_HEIGHT + 20,
+              paddingTop: HEADER_HEIGHT + 30,
               minHeight: height * 0.9,
             },
           ]}
@@ -613,7 +640,12 @@ const LikedMeScreen = () => {
         ]}
       >
         <View style={styles.headerContent}>
-          <Text style={styles.headerTitle}>
+          <Text
+            style={[
+              styles.headerTitle,
+              { textAlign: isRTL ? "right" : "left" },
+            ]}
+          >
             {currentLanguage === "ar" ? "معجبون بك" : "Likes You"}
           </Text>
         </View>
@@ -628,7 +660,7 @@ const LikedMeScreen = () => {
         }
         contentContainerStyle={[
           styles.listContainer,
-          { paddingTop: HEADER_HEIGHT + 20 },
+          { paddingTop: HEADER_HEIGHT + 30 },
         ]}
         showsVerticalScrollIndicator={false}
         onScroll={Animated.event(
@@ -720,8 +752,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F8F9FA",
   },
   header: {
-    paddingTop: Platform.OS === "ios" ? 65 : 40,
-    paddingBottom: 15,
+    paddingTop: Platform.OS === "ios" ? 70 : 50,
+    paddingBottom: 20,
     paddingHorizontal: 24,
     backgroundColor: COLORS.primary,
     borderBottomWidth: 0,
@@ -729,47 +761,47 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.15,
-    shadowRadius: 10,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 6,
   },
 
   headerTitle: {
-    fontSize: width * 0.08,
-    fontWeight: "800",
+    fontSize: width * 0.07,
+    fontWeight: "700",
     color: COLORS.white,
-    letterSpacing: -0.5,
+    letterSpacing: -0.3,
   },
   listContainer: {
-    paddingHorizontal: 15,
-    paddingBottom: 40,
+    paddingHorizontal: 20,
+    paddingBottom: 50,
   },
   card: {
-    marginBottom: 20,
+    marginTop: 20,
     overflow: "visible",
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
     alignSelf: "center",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
-    elevation: 10,
-    borderWidth: 2,
-    borderColor: COLORS.primary,
-    borderRadius: 20,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 8,
+    borderWidth: 0,
+    borderRadius: 16,
+    backgroundColor: COLORS.white,
   },
   cardTouchable: {
     flex: 1,
-    borderRadius: 18,
+    borderRadius: 16,
     overflow: "hidden",
   },
   cardInner: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: COLORS.white,
-    borderRadius: 18,
+    backgroundColor: "COLORS.white",
+    borderRadius: 16,
   },
   cardImageContainer: {
     width: CARD_HEIGHT,
@@ -779,67 +811,67 @@ const styles = StyleSheet.create({
   profileImage: {
     width: "100%",
     height: "100%",
-    borderTopLeftRadius: 18,
-    borderBottomLeftRadius: 18,
+    borderTopLeftRadius: 16,
+    borderBottomLeftRadius: 16,
   },
   imageGradient: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    height: 50,
-    borderBottomLeftRadius: 18,
+    height: 40,
+    borderBottomLeftRadius: 16,
   },
   likedBadge: {
     position: "absolute",
-    bottom: 10,
-    left: 10,
-    borderRadius: 12,
+    bottom: 8,
+    left: 8,
+    borderRadius: 10,
     overflow: "hidden",
   },
   likedBadgeGradient: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 12,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 10,
   },
   likedBadgeText: {
     color: COLORS.white,
     fontWeight: "600",
-    fontSize: 12,
+    fontSize: 11,
   },
   cardContent: {
     flex: 1,
-    padding: 12,
+    padding: 14,
     justifyContent: "space-between",
     flexDirection: "column",
   },
   userInfoContainer: {
-    marginBottom: 4,
+    marginBottom: 6,
   },
   name: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "700",
     color: "#2D3748",
-    marginBottom: 2,
+    marginBottom: 3,
   },
   userDetails: {
-    fontSize: 14,
+    fontSize: 13,
     color: "#718096",
   },
   likeBackButton: {
-    borderRadius: 12,
+    borderRadius: 10,
     overflow: "hidden",
-    marginTop: 4,
+    marginTop: 6,
   },
   likeBackGradient: {
-    paddingVertical: 10,
+    paddingVertical: 8,
     alignItems: "center",
-    borderRadius: 12,
+    borderRadius: 10,
   },
   likeBackText: {
     color: COLORS.white,
     fontWeight: "600",
-    fontSize: 14,
+    fontSize: 13,
   },
   centerContent: {
     flex: 1,

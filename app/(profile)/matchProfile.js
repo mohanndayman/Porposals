@@ -27,6 +27,7 @@ import ContactInfo from "../../components/profile/matchProfileScreen/ContactInfo
 import ProfileActions from "../../components/profile/matchProfileScreen/ProfileActions";
 import MatchBanner from "../../components/profile/matchProfileScreen/MatchBanner";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
+import MatchProfileSkeleton from "../../components/common/MatchProfileSkeleton";
 import ReportSection from "../../components/profile/matchProfileScreen/ReportSection";
 import { useSelector, useDispatch } from "react-redux";
 import { matchesService } from "../../services/matchesService";
@@ -168,14 +169,7 @@ const MatchProfileScreen = () => {
   });
 
   if (loading.profile && !userProfile) {
-    return (
-      <View style={createStyles(isRTL).loadingContainer}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
-        <Text style={createStyles(isRTL).loadingText}>
-          {t("match_profile.loading")}
-        </Text>
-      </View>
-    );
+    return <MatchProfileSkeleton />;
   }
 
   if (error.profile && !userProfile) {

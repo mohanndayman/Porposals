@@ -55,6 +55,7 @@ const ImageCarousel = ({
       keyExtractor={(item, index) =>
         (item.photo_url ? item.photo_url : `photo-${index}`) + index.toString()
       }
+      inverted={isRTL}
       {...flatListProps}
     />
   );

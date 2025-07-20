@@ -111,7 +111,7 @@ export const profileService = {
 
   fetchCitiesByCountry: async (countryId) => {
     try {
-      const response = await api.get(`${ENDPOINTS.CITIES}/${countryId}`);
+      const response = await api.get(`${ENDPOINTS.CITIES}/${countryId}/cities`);
       return response.data;
     } catch (error) {
       console.error("Error fetching cities:", error);

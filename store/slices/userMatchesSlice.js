@@ -101,7 +101,12 @@ export const fetchUserLikes = createAsyncThunk(
   "userMatches/fetchUserLikes",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get(ENDPOINTS.GET_LIKES);
+      const lang = (await AsyncStorage.getItem("userLanguage")) || "en";
+      const response = await api.get(ENDPOINTS.GET_LIKES, {
+        headers: {
+          "Accept-Language": lang,
+        },
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(
